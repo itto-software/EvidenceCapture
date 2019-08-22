@@ -1,1 +1,6 @@
 "# EvidenceCapture" 
+
+
+
+## License
+MIT
