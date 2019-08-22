@@ -75,15 +75,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\IOSettings.cs" />
+    <Compile Include="Model\ApplicationSettings.cs" />
+    <Compile Include="Model\ImageHelper.cs" />
     <Compile Include="Model\KeyboardHook.cs" />
     <Compile Include="Model\OperateControlModel.cs" />
+    <Compile Include="Model\SnapTreeItem.cs" />
     <Compile Include="Properties\DisplaySettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>DisplaySettings.settings</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\OperateControlViewModel.cs" />
+    <Compile Include="View\Custom\BindableSelectedItemTreeView.cs" />
     <Compile Include="View\OperateControl.xaml.cs">
       <DependentUpon>OperateControl.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\OperateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Style\CommonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

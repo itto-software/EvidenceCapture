@@ -34,5 +34,29 @@ namespace EvidenceCapture.Properties {
                 this["DefaultOutput"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[n]-[n]-[n]")]
+        public string GroupPattern {
+            get {
+                return ((string)(this["GroupPattern"]));
+            }
+            set {
+                this["GroupPattern"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("png")]
+        public string ImageFormat {
+            get {
+                return ((string)(this["ImageFormat"]));
+            }
+            set {
+                this["ImageFormat"] = value;
+            }
+        }
     }
 }

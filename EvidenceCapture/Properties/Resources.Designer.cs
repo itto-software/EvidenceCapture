@@ -61,6 +61,15 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   グループの追加 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddGroupToolTip {
+            get {
+                return ResourceManager.GetString("AddGroupToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   EvidenceCapture に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AppTitle {

@@ -5,5 +5,11 @@
     <Setting Name="DefaultOutput" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="GroupPattern" Type="System.String" Scope="User">
+      <Value Profile="(Default)">[n]-[n]-[n]</Value>
+    </Setting>
+    <Setting Name="ImageFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">png</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
