@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="EvidenceCapture.View.OperateControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EvidenceCapture.View"
+             xmlns:vm="clr-namespace:EvidenceCapture.ViewModel"
+            xmlns:rs="clr-namespace:EvidenceCapture.Properties"
+             mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="640">
+    <UserControl.DataContext>
+        <vm:OperateControlViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- ツリーペイン-->
+        <Border 
+                Grid.RowSpan="2"
+                Margin="4,2,4,2"
+                Background="WhiteSmoke"
+                Padding="2"
+                CornerRadius="8">
+            <TreeView 
+                BorderThickness="0"
+                Background="Transparent"
+                Width="100"
+                ItemsSource="{Binding SnapList}">
+            </TreeView>
+        </Border>
+        <DockPanel
+            Grid.Column="1">
+            <Border 
+                Margin="4,2,8,2"
+                Background="black"
+                Padding="2"
+                CornerRadius="8" BorderBrush="Silver" BorderThickness="1">
+                <Button 
+                    ToolTip="{x:Static rs:Resources.SetFolderToolTip}"
+                    TextBlock.Foreground="Silver"
+                    Command="{Binding SetOutputPathCommand}"
+                    BorderThickness="0"
+                    TextBlock.FontWeight="Bold"
+                    TextBlock.FontSize="18"
+                    Background="Transparent"
+                    DockPanel.Dock="Left"
+                    TextBlock.FontFamily="Wingdings"
+                    Content="1"/>
+            </Border>
+            <Border 
+                Margin="2,2,4,2"
+                CornerRadius="5"
+                Background="WhiteSmoke"
+                DockPanel.Dock="Right">
+                <TextBox
+                    BorderThickness="0"
+                    Focusable="False"
+                    IsReadOnly="True"
+                    Foreground="Silver"
+                    Text="{Binding SelectedOutputPath}"
+                    Background="Transparent"
+                    TextBlock.Foreground="Black"/>
+            </Border>
+        </DockPanel>
+
+    </Grid>
+</UserControl>
