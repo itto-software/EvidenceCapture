@@ -29,7 +29,10 @@ namespace EvidenceCapture.View
         {
             InitializeComponent();
 
-            GalaSoft.MvvmLight.Messaging.Messenger.Default.Register(this, (Action<WindowOperate>)WindowOperateReceiver);
+            // ウインドステータス更新メッセージレシーバーを登録
+            GalaSoft.MvvmLight.Messaging.Messenger.Default.Register(this, (Action<WindowOperateMessage>)WindowOperateReceiver);
+
+
             this.WindowState = WindowState.Maximized;
             vm = this.DataContext as MainViewModel;
             this.Closing += _OnClosing;
@@ -41,25 +44,25 @@ namespace EvidenceCapture.View
 
         }
 
-        private void WindowOperateReceiver(WindowOperate womsg)
+        private void WindowOperateReceiver(WindowOperateMessage womsg)
         {
             switch (womsg.Operate)
             {
-                case WindowOperate.OperateEnum.ExitApplicationCommand:
+                case WindowOperateMessage.OperateEnum.ExitApplicationCommand:
                     this.Close();
                     break;
-                case WindowOperate.OperateEnum.ToMinimunCommand:
+                case WindowOperateMessage.OperateEnum.ToMinimunCommand:
                     this.WindowState = WindowState.Minimized;
                     this.ShowInTaskbar = true;
                     break;
-                case WindowOperate.OperateEnum.ToNormal:
+                case WindowOperateMessage.OperateEnum.ToNormal:
                     this.WindowState = WindowState.Normal;
                     break;
-                case WindowOperate.OperateEnum.ToMaximam:
+                case WindowOperateMessage.OperateEnum.ToMaximam:
                     this.WindowState = WindowState.Maximized;
                     break;
 
-                case WindowOperate.OperateEnum.ToNormalOrMaximam:
+                case WindowOperateMessage.OperateEnum.ToNormalOrMaximam:
                     if (this.WindowState == WindowState.Maximized)
                     {
                         this.WindowState = WindowState.Normal;

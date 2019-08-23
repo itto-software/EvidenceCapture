@@ -79,6 +79,114 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   自動リサイズを有効にする に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoResizeToolTip {
+            get {
+                return ResourceManager.GetString("AutoResizeToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   キャンセル に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CancelButton {
+            get {
+                return ResourceManager.GetString("CancelButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   作成 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CreateButton {
+            get {
+                return ResourceManager.GetString("CreateButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   高さ変更 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FixHeight {
+            get {
+                return ResourceManager.GetString("FixHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   幅変更 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FixWidth {
+            get {
+                return ResourceManager.GetString("FixWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Excel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FormatExcel {
+            get {
+                return ResourceManager.GetString("FormatExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   HTML に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FormatHTML {
+            get {
+                return ResourceManager.GetString("FormatHTML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   PDF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FormatPDF {
+            get {
+                return ResourceManager.GetString("FormatPDF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   レポートを出力する に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LaunchReportDialogToolTip {
+            get {
+                return ResourceManager.GetString("LaunchReportDialogToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   OK に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OkButton {
+            get {
+                return ResourceManager.GetString("OkButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   レポート出力 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ReportDialogTitle {
+            get {
+                return ResourceManager.GetString("ReportDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   出力するフォーマットを選択し、作成ボタンをおしてください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SelectFormatCaption {
+            get {
+                return ResourceManager.GetString("SelectFormatCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   出力先フォルダの設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SetFolderToolTip {

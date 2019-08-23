@@ -9,7 +9,7 @@ namespace EvidenceCapture.Model.Message
     /// <summary>
     /// Windowステータス変更メッセージ
     /// </summary>
-    internal class WindowOperate
+    internal class WindowOperateMessage
     {
         /// <summary>
         /// ウィンドウステータス変更イベント名enum

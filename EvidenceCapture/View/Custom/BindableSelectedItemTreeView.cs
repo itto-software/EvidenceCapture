@@ -34,7 +34,9 @@ namespace EvidenceCapture.View.Custom
         public object BindableSelectedItem
         {
             get { return (object)this.GetValue(BindableSelectedItemProperty); }
-            set { this.SetValue(BindableSelectedItemProperty, value); }
+            set {
+                this.SetValue(BindableSelectedItemProperty, value);
+            }
         }
 
         //

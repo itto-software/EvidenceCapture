@@ -123,6 +123,42 @@
   <data name="AppTitle" xml:space="preserve">
     <value>EvidenceCapture</value>
   </data>
+  <data name="AutoResizeToolTip" xml:space="preserve">
+    <value>自動リサイズを有効にする</value>
+  </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="CreateButton" xml:space="preserve">
+    <value>作成</value>
+  </data>
+  <data name="FixHeight" xml:space="preserve">
+    <value>高さ変更</value>
+  </data>
+  <data name="FixWidth" xml:space="preserve">
+    <value>幅変更</value>
+  </data>
+  <data name="FormatExcel" xml:space="preserve">
+    <value>Excel</value>
+  </data>
+  <data name="FormatHTML" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="FormatPDF" xml:space="preserve">
+    <value>PDF</value>
+  </data>
+  <data name="LaunchReportDialogToolTip" xml:space="preserve">
+    <value>レポートを出力する</value>
+  </data>
+  <data name="OkButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ReportDialogTitle" xml:space="preserve">
+    <value>レポート出力</value>
+  </data>
+  <data name="SelectFormatCaption" xml:space="preserve">
+    <value>出力するフォーマットを選択し、作成ボタンをおしてください。</value>
+  </data>
   <data name="SetFolderToolTip" xml:space="preserve">
     <value>出力先フォルダの設定</value>
   </data>

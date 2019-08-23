@@ -8,7 +8,7 @@
         xmlns:vm="clr-namespace:EvidenceCapture.ViewModel"
         mc:Ignorable="d"
         Title="{x:Static rs:Resources.AppTitle}" 
-        Width="800"
+        MinWidth="640"
         MinHeight="480" 
         WindowStyle="None"
         ShowInTaskbar="True">
@@ -20,6 +20,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Style/TitleStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter" />
         </ResourceDictionary>
     </Window.Resources>
     <WindowChrome.WindowChrome>
@@ -61,6 +62,23 @@
             </Grid>
             <local:OperateControl 
                 Grid.Row="1"/>
+            <Grid
+                Visibility="{Binding ShowOverRay,Converter={StaticResource BoolVisibilityConverter}}"
+                Grid.Row="1">
+                <Canvas
+                        Opacity="0.6"
+                        Background="Black"/>
+                <Label
+                    Visibility="{Binding ShowDialog,Converter={StaticResource BoolVisibilityConverter}}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Content="{Binding SubDialog}"/>
+            </Grid>
+            <local:WaitingCircle 
+                CircleColor="Silver"
+                Grid.Row="1"
+                    Visibility="{Binding ShowWaiting,Converter={StaticResource BoolVisibilityConverter}}"/>
+
         </Grid>
     </Border>
 </Window>

@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="EvidenceCapture.View.Overray.ReportDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EvidenceCapture.View.Overray"
+             xmlns:vm="clr-namespace:EvidenceCapture.ViewModel.Overray"
+             xmlns:rs="clr-namespace:EvidenceCapture.Properties"
+             xmlns:conv="clr-namespace:EvidenceCapture.View.Converter"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/View/Style/OverrayStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <conv:BoolToEnumConverter x:Key="Enum" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:ReportViewModel/>
+    </UserControl.DataContext>
+    <Border Style="{StaticResource FormBaseBorder}" 
+            Width="320" 
+            Height="200">
+        <Grid 
+        Style="{StaticResource FormBase}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="{x:Static rs:Resources.ReportDialogTitle}" Style="{StaticResource TitleLabel}"></Label>
+
+            <StackPanel Orientation="Vertical" Grid.Row="1" Margin="8">
+                <Label Content="{x:Static rs:Resources.SelectFormatCaption}" ></Label>
+                <RadioButton 
+                    GroupName="SelectFormat"
+                    IsChecked="{Binding SelectFormat, Converter={StaticResource Enum}, Mode=TwoWay, ConverterParameter=Excel}"
+                    Content="{x:Static rs:Resources.FormatExcel}"/>
+                <RadioButton 
+                    GroupName="SelectFormat"
+                    IsChecked="{Binding SelectFormat, Converter={StaticResource Enum}, Mode=TwoWay, ConverterParameter=PDF}"
+                    Content="{x:Static rs:Resources.FormatPDF}"/>
+                <RadioButton 
+                    GroupName="SelectFormat"
+                    IsChecked="{Binding SelectFormat, Converter={StaticResource Enum}, Mode=TwoWay, ConverterParameter=HTML}"
+                    Content="{x:Static rs:Resources.FormatHTML}"/>
+            </StackPanel>
+
+            <Grid Grid.Row="2" Margin="8" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.48*" />
+                    <ColumnDefinition Width="0.04*" />
+                    <ColumnDefinition Width="0.48*" />
+                </Grid.ColumnDefinitions>
+                <Button 
+                    Command="{Binding OkCommand}"
+                    Content="{x:Static rs:Resources.CreateButton}" Grid.Column="0"/>
+                <Button 
+                    Command="{Binding CancelCommand}"
+                    Content="{x:Static rs:Resources.CancelButton}" Grid.Column="2"/>
+
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,4 +1,6 @@
 ﻿using EvidenceCapture.Model;
+using EvidenceCapture.ViewModel.Base;
+using EvidenceCapture.ViewModel.Overray;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using HongliangSoft.Utilities;
@@ -15,7 +17,7 @@ using System.Windows.Media;
 
 namespace EvidenceCapture.ViewModel
 {
-    class OperateControlViewModel : ViewModelBase
+    class OperateControlViewModel : BaseVM
     {
         #region Fields
 
@@ -24,7 +26,7 @@ namespace EvidenceCapture.ViewModel
         private string _selectedOutputPath;
         private KeyboardUpDown _before;
         private SnapTreeItem _selectedNode;
-        private ImageSource _preview;
+        private ImageProcessingViewModel _imageProcessingVM;
 
         #endregion
 
@@ -38,6 +40,9 @@ namespace EvidenceCapture.ViewModel
 
         /// <summary>ノード削除コマンド</summary>
         public ICommand RemoveNodeCommand { get; private set; }
+
+        /// <summary>レポート出力起動コマンド</summary>
+        public ICommand LaunchReportDialogCommand { get; private set; }
 
         public string SelectedOutputPath
         {
@@ -82,7 +87,7 @@ namespace EvidenceCapture.ViewModel
             }
             set
             {
-//                if (value != _selectedNode)
+                if (value != _selectedNode)
                 {
                     _selectedNode = value;
                     RaisePropertyChanged(nameof(SelectedNode));
@@ -100,29 +105,40 @@ namespace EvidenceCapture.ViewModel
                             _selectedNode.Parent.Name,
                             _selectedNode.Name);
 
-                        if (File.Exists(targetPath))
-                        {
-                            Preview = ImageHelper.GetImageSource(targetPath);
-                        }
+                        ImageProcessingVM.TargetPath = targetPath;
                     }
                     else
                     {
-                        Preview = null;
+                        ImageProcessingVM.TargetPath = null;
                     }
                 }
             }
         }
 
-        public System.Windows.Media.ImageSource Preview
+
+        public bool CheckedAutoResize
         {
             get
             {
-                return _preview;
+                return model.AutoResize;
             }
             set
             {
-                _preview = value;
-                RaisePropertyChanged(nameof(Preview));
+                model.AutoResize = value;
+                RaisePropertyChanged(nameof(CheckedAutoResize));
+            }
+
+        }
+        public ImageProcessingViewModel ImageProcessingVM
+        {
+            get
+            {
+                return _imageProcessingVM;
+            }
+            set
+            {
+                _imageProcessingVM = value;
+                RaisePropertyChanged(nameof(ImageProcessingVM));
             }
         }
 
@@ -130,6 +146,7 @@ namespace EvidenceCapture.ViewModel
 
         public OperateControlViewModel()
         {
+            ImageProcessingVM = new ImageProcessingViewModel();
             keyHook = new KeyboardHook();
             keyHook.KeyboardHooked += new KeyboardHookedEventHandler(OnGlobalKeyAction);
             model = new OperateControlModel();
@@ -140,59 +157,49 @@ namespace EvidenceCapture.ViewModel
             // コマンドの初期化
             SetOutputPathCommand = new RelayCommand(SetOutputPathImpl);
             RemoveNodeCommand = new RelayCommand(RemoveNodeImpl);
-
             AddGroupCommand = new RelayCommand(AddGroupImpl);
+            LaunchReportDialogCommand = new RelayCommand(
+                () =>
+                {
+                    var view = new View.Overray.ReportDialog();
+                    (view.DataContext as ReportViewModel).TargetList = new List<SnapTreeItem>(this.SnapList.ToList());
+                    LaunchDialog(view, ReportCallBack);
+                }, CanLaunchReport
+                );
 
+        }
+
+        private bool CanLaunchReport()
+        {
+            bool HasChild = SnapList.Count > 0;
+            foreach (var item in SnapList)
+            {
+                HasChild |= item.Children.Count > 0;
+            }
+            
+
+            return (this.SnapList != null && HasChild );
+        }
+
+        private void ReportCallBack()
+        {
+            // OK後のふるまい
         }
 
         private void AddGroupImpl()
         {
             model.AddLevel();
+
+            var latestNode = model.SnapShotTreeSource.ToList().Find(x => x.Name == model.CurrentGroup);
+            if (latestNode != null)
+                this.SelectedNode = latestNode;
         }
 
         private void RemoveNodeImpl()
         {
             if (SelectedNode != null)
             {
-                SnapTreeItem nextFocusNode = null;
-                if (SelectedNode.NodeFileType == SnapTreeItem.FileType.File)
-                {
-                    var nextNodeIndex = (SelectedNode.Parent.Children.ToList().FindIndex(x => x.Name == SelectedNode.Name)) - 1;
-                    if (nextNodeIndex > 0)
-                    {
-                        nextFocusNode = SelectedNode.Parent.Children[nextNodeIndex];
-                    }
-                }
-                else
-                {
-                    var nextNodeIndex = (model.SnapShotTreeSource.ToList().FindIndex(x => x.Name == SelectedNode.Name)) - 1;
-                    if (nextNodeIndex > 0)
-                    {
-                        nextFocusNode = model.SnapShotTreeSource[nextNodeIndex];
-                    }
-
-                }
-
-
-
-                if (SelectedNode.NodeFileType == SnapTreeItem.FileType.File)
-                {
-
-                    var removeTarget = Path.Combine(SelectedOutputPath, SelectedNode.Parent.Name, SelectedNode.Name);
-                    SelectedNode.Parent.Children.Remove(SelectedNode);
-                    if (File.Exists(removeTarget))
-                        File.Delete(removeTarget);
-                }
-                else
-                {
-                    var removeTarget = Path.Combine(SelectedOutputPath, SelectedNode.Name);
-                    model.SnapShotTreeSource.Remove(SelectedNode);
-                    if (Directory.Exists(removeTarget))
-                        Directory.Delete(removeTarget, true);
-                }
-
-                if (nextFocusNode != null)
-                    SelectedNode = nextFocusNode;
+                model.RemoveTree(SelectedNode);
 
             }
         }

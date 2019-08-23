@@ -43,6 +43,8 @@ namespace EvidenceCapture.Model
             }
         }
 
+        public bool AutoResize { get; internal set; }
+
 
         #endregion
 
@@ -52,6 +54,102 @@ namespace EvidenceCapture.Model
             LevelInit();
         }
 
+
+        internal void AddCapture(bool isDisplay = true)
+        {
+            var bmp = (isDisplay) ? SnapHelper.GetDisplayCapture() :
+                SnapHelper.GetAppCapture();
+
+            var outDir = Path.Combine(
+                ApplicationSettings.Instance.OutputDir, CurrentGroup);
+
+            if (!Directory.Exists(outDir))
+                Directory.CreateDirectory(outDir);
+
+            if (SnapShotTreeSource.ToList().Count(x => x.Name == CurrentGroup) == 0)
+            {
+                SnapShotTreeSource.Add(new SnapTreeItem()
+                {
+                    NodeFileType = SnapTreeItem.FileType.Folder,
+                    Name = CurrentGroup,
+                    IsExpanded = true,
+                    Children = new ObservableCollection<SnapTreeItem>()
+                });
+            }
+
+            var parentNode = SnapShotTreeSource.ToList().Find(x => x.Name == CurrentGroup);
+
+            var lastNo = parentNode.Children.Count + 1;
+            var newName = string.Format("{0:D3}.{1}", lastNo, ApplicationSettings.Instance.ImageFormat);
+
+            parentNode.Children.Add(
+                new SnapTreeItem()
+                {
+                    NodeFileType = SnapTreeItem.FileType.File,
+                    Name = newName,
+                    IsExpanded = false,
+                    Parent = parentNode
+                });
+
+
+            var outputpath = Path.Combine(outDir,
+                newName);
+
+
+            if (AutoResize)
+            {
+                var ins = ApplicationSettings.Instance;
+                bmp = ImageHelper.Resize(bmp, ins.DefaultWidth, ins.DefaultHeight);
+            }
+            bmp.Save(outputpath);
+            bmp.Dispose();
+
+        }
+
+        internal void RemoveTree(SnapTreeItem selectedNode)
+        {
+            if (selectedNode.NodeFileType == SnapTreeItem.FileType.File)
+            {
+                var removeTarget = Path.Combine(OutputRoot, selectedNode.Parent.Name, selectedNode.Name);
+                selectedNode.Parent.Children.Remove(selectedNode);
+                if (File.Exists(removeTarget))
+                    File.Delete(removeTarget);
+            }
+            else
+            {
+                var removeTarget = Path.Combine(OutputRoot, selectedNode.Name);
+                SnapShotTreeSource.Remove(selectedNode);
+                if (Directory.Exists(removeTarget))
+                    Directory.Delete(removeTarget, true);
+                UpdateLatestLevel();
+            }
+        }
+
+        private void UpdateLatestLevel()
+        {
+            if (SnapShotTreeSource.Count > 0)
+            {
+                var lastnode = SnapShotTreeSource.Last();
+
+                var matche = Regex.Matches(lastnode.Name,
+                    "[0-9+]");
+                levels.Clear();
+
+
+                foreach (var m in matche)
+                {
+                    int newV = int.Parse(m.ToString());
+
+                    levels.Add(newV);
+                }
+                levels.Reverse();
+                LevelToGroupName();
+            }
+            else
+            {
+                LevelInit();
+            }
+        }
 
         private void LevelInit()
         {
@@ -104,153 +202,6 @@ namespace EvidenceCapture.Model
                 IsExpanded = true,
                 Children = new ObservableCollection<SnapTreeItem>()
             });
-        }
-
-
-        #region External DLL API
-        private const int SRCCOPY = 13369376;
-        private const int CAPTUREBLT = 1073741824;
-
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct RECT
-        {
-            public int left;
-            public int top;
-            public int right;
-            public int bottom;
-        }
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetDC(IntPtr hwnd);
-        [DllImport("user32.dll")]
-        private static extern IntPtr ReleaseDC(IntPtr hwnd, IntPtr hdc);
-
-        [DllImport("gdi32.dll")]
-        private static extern int BitBlt(IntPtr hDestDC,
-            int x,
-            int y,
-            int nWidth,
-            int nHeight,
-            IntPtr hSrcDC,
-            int xSrc,
-            int ySrc,
-            int dwRop);
-
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetWindowDC(IntPtr hwnd);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        private static extern int GetWindowRect(IntPtr hwnd,
-            ref RECT lpRect);
-
-        #endregion
-
-        internal void AddCapture(bool isDisplay = true)
-        {
-            var bmp = (isDisplay) ? GetDisplayCapture() :
-                GetAppCapture();
-
-            var outDir = Path.Combine(
-                ApplicationSettings.Instance.OutputDir, CurrentGroup);
-
-            if (!Directory.Exists(outDir))
-                Directory.CreateDirectory(outDir);
-
-            if (SnapShotTreeSource.ToList().Count(x => x.Name == CurrentGroup) == 0)
-            {
-                SnapShotTreeSource.Add(new SnapTreeItem()
-                {
-                    NodeFileType = SnapTreeItem.FileType.Folder,
-                    Name = CurrentGroup,
-                    IsExpanded = true,
-                    Children = new ObservableCollection<SnapTreeItem>()
-                });
-            }
-
-            var parentNode = SnapShotTreeSource.ToList().Find(x => x.Name == CurrentGroup);
-
-            var lastNo = parentNode.Children.Count + 1;
-            var newName = string.Format("{0:D3}.{1}", lastNo, ApplicationSettings.Instance.ImageFormat);
-
-            parentNode.Children.Add(
-                new SnapTreeItem()
-                {
-                    NodeFileType = SnapTreeItem.FileType.File,
-                    Name = newName,
-                    IsExpanded = false,
-                    Parent = parentNode
-                });
-
-
-            var outputpath = Path.Combine(outDir,
-                newName);
-            bmp.Save(outputpath);
-
-
-        }
-
-        private Bitmap GetAppCapture()
-        {
-            //アクティブなウィンドウのデバイスコンテキストを取得
-            IntPtr hWnd = GetForegroundWindow();
-            IntPtr winDC = GetWindowDC(hWnd);
-            //ウィンドウの大きさを取得
-            RECT winRect = new RECT();
-            GetWindowRect(hWnd, ref winRect);
-            //Bitmapの作成
-            Bitmap bmp = new Bitmap(winRect.right - winRect.left,
-                winRect.bottom - winRect.top);
-            //Graphicsの作成
-            Graphics g = Graphics.FromImage(bmp);
-            //Graphicsのデバイスコンテキストを取得
-            IntPtr hDC = g.GetHdc();
-            //Bitmapに画像をコピーする
-            BitBlt(hDC, 0, 0, bmp.Width, bmp.Height,
-                winDC, 0, 0, SRCCOPY);
-            //解放
-            g.ReleaseHdc(hDC);
-            g.Dispose();
-            ReleaseDC(hWnd, winDC);
-
-            return bmp;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private Bitmap GetDisplayCapture()
-        {
-            var all_width = 0;
-            foreach (var scr in Screen.AllScreens)
-            {
-                all_width += scr.Bounds.Width;
-            }
-
-
-            //プライマリモニタのデバイスコンテキストを取得
-            IntPtr disDC = GetDC(IntPtr.Zero);
-            //Bitmapの作成
-            Bitmap bmp = new Bitmap(all_width,
-                Screen.PrimaryScreen.Bounds.Height);
-            //Graphicsの作成
-            Graphics g = Graphics.FromImage(bmp);
-            //Graphicsのデバイスコンテキストを取得
-            IntPtr hDC = g.GetHdc();
-            //Bitmapに画像をコピーする
-            BitBlt(hDC, 0, 0, all_width, bmp.Height,
-                disDC, 0, 0, SRCCOPY);
-            //解放
-            g.ReleaseHdc(hDC);
-            g.Dispose();
-            ReleaseDC(IntPtr.Zero, disDC);
-
-            return bmp;
         }
 
     }

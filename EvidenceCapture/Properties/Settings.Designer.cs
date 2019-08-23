@@ -58,5 +58,41 @@ namespace EvidenceCapture.Properties {
                 this["ImageFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("640")]
+        public int DefaultWidth {
+            get {
+                return ((int)(this["DefaultWidth"]));
+            }
+            set {
+                this["DefaultWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("480")]
+        public int DefaultHeight {
+            get {
+                return ((int)(this["DefaultHeight"]));
+            }
+            set {
+                this["DefaultHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int OutputFormat {
+            get {
+                return ((int)(this["OutputFormat"]));
+            }
+            set {
+                this["OutputFormat"] = value;
+            }
+        }
     }
 }

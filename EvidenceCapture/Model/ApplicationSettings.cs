@@ -22,6 +22,32 @@ namespace EvidenceCapture.Model
         internal static ApplicationSettings Instance => _instance;
 
 
+        public int DefaultWidth
+        {
+            get
+            {
+                return Properties.Settings.Default.DefaultWidth;
+            }
+            set
+            {
+                Properties.Settings.Default.DefaultWidth = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        public int DefaultHeight
+        {
+            get
+            {
+                return Properties.Settings.Default.DefaultHeight;
+            }
+            set
+            {
+                Properties.Settings.Default.DefaultHeight = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         public string GroupPattern
         {
             get
@@ -59,6 +85,22 @@ namespace EvidenceCapture.Model
             set
             {
                 Properties.Settings.Default.ImageFormat = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+
+
+        /// <summary>出力フォーマット</summary>
+        public int OutputFormat
+        {
+            get
+            {
+                return Properties.Settings.Default.OutputFormat;
+            }
+            set
+            {
+                Properties.Settings.Default.OutputFormat = value;
                 Properties.Settings.Default.Save();
             }
         }
