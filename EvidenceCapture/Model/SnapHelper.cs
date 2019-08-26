@@ -14,7 +14,6 @@ namespace EvidenceCapture.Model
         private const int SRCCOPY = 13369376;
         private const int CAPTUREBLT = 1073741824;
 
-
         [StructLayout(LayoutKind.Sequential)]
         private struct RECT
         {
@@ -44,6 +43,7 @@ namespace EvidenceCapture.Model
         [DllImport("user32.dll")]
         private static extern IntPtr GetWindowDC(IntPtr hwnd);
 
+
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
 
@@ -51,14 +51,48 @@ namespace EvidenceCapture.Model
         private static extern int GetWindowRect(IntPtr hwnd,
             ref RECT lpRect);
 
+        [DllImport("user32.dll")]
+        private static extern int GetClientRect(IntPtr hwnd,
+            ref RECT lpRect);
+
+
+        [DllImport("dwmapi.dll")]
+        static extern int DwmGetWindowAttribute(IntPtr hwnd, int dwAttribute, out RECT pvAttribute, int cbAttribute);
+
+
+        [Flags]
+        public enum DwmWindowAttribute : uint
+        {
+            DWMWA_NCRENDERING_ENABLED = 1,
+            DWMWA_NCRENDERING_POLICY,
+            DWMWA_TRANSITIONS_FORCEDISABLED,
+            DWMWA_ALLOW_NCPAINT,
+            DWMWA_CAPTION_BUTTON_BOUNDS,
+            DWMWA_NONCLIENT_RTL_LAYOUT,
+            DWMWA_FORCE_ICONIC_REPRESENTATION,
+            DWMWA_FLIP3D_POLICY,
+            DWMWA_EXTENDED_FRAME_BOUNDS,
+            DWMWA_HAS_ICONIC_BITMAP,
+            DWMWA_DISALLOW_PEEK,
+            DWMWA_EXCLUDED_FROM_PEEK,
+            DWMWA_CLOAK,
+            DWMWA_CLOAKED,
+            DWMWA_FREEZE_REPRESENTATION,
+            DWMWA_LAST
+        }
+
+
         static internal Bitmap GetAppCapture()
         {
             //アクティブなウィンドウのデバイスコンテキストを取得
             IntPtr hWnd = GetForegroundWindow();
-            IntPtr winDC = GetWindowDC(hWnd);
+            //            IntPtr winDC = GetWindowDC(hWnd);
+            IntPtr winDC = GetDC(hWnd);
+
             //ウィンドウの大きさを取得
             RECT winRect = new RECT();
-            GetWindowRect(hWnd, ref winRect);
+            //            GetWindowRect(hWnd, ref winRect);
+            GetClientRect(hWnd, ref winRect);
             //Bitmapの作成
             Bitmap bmp = new Bitmap(winRect.right - winRect.left,
                 winRect.bottom - winRect.top);
@@ -67,13 +101,18 @@ namespace EvidenceCapture.Model
             //Graphicsのデバイスコンテキストを取得
             IntPtr hDC = g.GetHdc();
             //Bitmapに画像をコピーする
+                        BitBlt(hDC, 0, 0, bmp.Width, bmp.Height,
+                            winDC, 0, 0, SRCCOPY);
+
+/*
+            IntPtr disDC = GetDC(IntPtr.Zero);
             BitBlt(hDC, 0, 0, bmp.Width, bmp.Height,
-                winDC, 0, 0, SRCCOPY);
+                disDC, winRect.left, winRect.top, SRCCOPY);
+                */
             //解放
             g.ReleaseHdc(hDC);
             g.Dispose();
             ReleaseDC(hWnd, winDC);
-
             return bmp;
         }
 

@@ -124,6 +124,16 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   予期せぬエラーが発生しました。
+        ///例外エラー={0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ErrUnexpected {
+            get {
+                return ResourceManager.GetString("ErrUnexpected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   高さ変更 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FixHeight {

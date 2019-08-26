@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using EvidenceCapture.Model.ProcessResult;
 using EvidenceCapture.ViewModel.Overray;
 using Microsoft.Office.Interop.Excel;
@@ -20,23 +21,120 @@ namespace EvidenceCapture.Model.Overray
 
 
 
-        internal async void CreateReport(System.Action<object> callBack)
+        internal async void CreateReport(System.Action<object> callBack, System.Action<Exception> failedBack)
         {
             var outResult = new ReportOut();
+            Exception exp = null;
 
             var result = await Task.Run<bool>(() =>
             {
-                switch (SelectFormat)
+                try
                 {
-                    case ReportViewModel.FormatType.Excel:
-                        outResult =  ExcelOut();
-                        break;
+                    switch (SelectFormat)
+                    {
+                        case ReportViewModel.FormatType.Excel:
+                            outResult = ExcelOut();
+                            break;
+                        case ReportViewModel.FormatType.PDF:
+                            outResult = PDFOut();
+                            break;
+                        case ReportViewModel.FormatType.HTML:
+                            outResult = HTMLOut();
+                            break;
 
+                    }
                 }
+                catch (Exception e)
+                {
+                    exp = e;
+                    return false;
+                }
+
 
                 return true;
             });
-            callBack(outResult);
+
+            if (result)
+                callBack(outResult);
+            else
+                failedBack(exp);
+
+        }
+
+        private ReportOut HTMLOut()
+        {
+            var rtn = new ReportOut();
+            rtn.ReportType = ReportOut.ReportEnum.HTML;
+
+            var destPath = Path.Combine(ApplicationSettings.Instance.OutputDir,
+                "Report.html");
+
+            rtn.OutputPath = destPath;
+
+            var html = GetHTMLStr();
+            using (var writer = new StreamWriter(destPath, false))
+            {
+                writer.WriteLine(html);
+            }
+            return rtn;
+        }
+
+        private string GetHTMLStr()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(@"<html>");
+            foreach (var pn in TargetList)
+            {
+                sb.Append(@"<div style='margin:2em;'>");
+                sb.Append($"<p>{pn.Name}</p>");
+                foreach (var cn in pn.Children)
+                {
+                    sb.Append(@"<div style='margin:2em;'>");
+                    sb.Append($"<img src='{ApplicationSettings.Instance.OutputDir}/{pn.Name}/{cn.Name}' style='width:60%;border:inset  1px;'>");
+                    sb.Append(@"</div>");
+
+                }
+                sb.Append(@"</div>");
+
+            }
+
+            sb.Append(@"</html>");
+
+            return sb.ToString();
+
+        }
+
+        private ReportOut PDFOut()
+        {
+            var rtn = new ReportOut();
+            rtn.ReportType = ReportOut.ReportEnum.PDF;
+
+
+            var destPath = Path.Combine(ApplicationSettings.Instance.OutputDir,
+                "Report.pdf");
+
+            rtn.OutputPath = destPath;
+
+            var html = GetHTMLStr();
+
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(html, PdfSharp.PageSize.A4);
+                pdf.Save(ms);
+                var result = ms.ToArray();
+
+                using (BinaryWriter w = new BinaryWriter(File.OpenWrite(destPath)))
+                {
+                    w.Write(result);
+                }
+
+            }
+
+            return rtn;
+
+
         }
 
         private ReportOut ExcelOut()
@@ -102,7 +200,7 @@ namespace EvidenceCapture.Model.Overray
                             shape.ScaleWidth(1.0, true);
 
                             NextTop += shape.Height + range.Height;
-                            
+
                         }
                         workSheets.Add(After: currentSheet);
                     }

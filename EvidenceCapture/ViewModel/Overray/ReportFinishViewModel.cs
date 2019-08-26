@@ -68,7 +68,7 @@ namespace EvidenceCapture.ViewModel.Overray
 
         public ReportFinishViewModel()
         {
-            DialogCaption = string.Format(Resources.ReportFinishCaption, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxX");
+            DialogCaption = string.Format(Resources.ReportFinishCaption, "xxxx");
 
             ShowFileCommand = new RelayCommand(ShowFileImpl);
             ShowDirCommand = new RelayCommand(ShowDirImpl);

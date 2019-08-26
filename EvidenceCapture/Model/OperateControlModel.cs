@@ -76,7 +76,7 @@ namespace EvidenceCapture.Model
                 {
                     NodeFileType = SnapTreeItem.FileType.Folder,
                     Name = CurrentGroup,
-                    IsExpanded = true,
+                    IsExpanded = false,
                     Children = new ObservableCollection<SnapTreeItem>()
                 });
             }
@@ -94,6 +94,7 @@ namespace EvidenceCapture.Model
 
             var newName = string.Format("{0:D3}.{1}", lastNo, ApplicationSettings.Instance.ImageFormat);
 
+            parentNode.IsExpanded = true;
             parentNode.Children.Add(
                 new SnapTreeItem()
                 {
@@ -261,7 +262,7 @@ namespace EvidenceCapture.Model
                         {
                             NodeFileType = SnapTreeItem.FileType.Folder,
                             Name = parentName,
-                            IsExpanded = true,
+                            IsExpanded = false,
                             Children = new ObservableCollection<SnapTreeItem>()
                         };
                         SnapShotTreeSource.Add(parentNode);

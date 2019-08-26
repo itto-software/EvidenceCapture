@@ -15,17 +15,14 @@ namespace EvidenceCapture.ViewModel.Overray
         public virtual Action<object> CallBak { set; get; }
 
 
-        public virtual ICommand OkCommand { set; get; }
         public virtual ICommand CancelCommand { set; get; }
 
         public OverrayBase() : base()
         {
-            //            OkCommand = new RelayCommand(
-            //               CallBak);
-
             CancelCommand = new RelayCommand(
-                () => {
-                    MessengerInstance.Send(new OverrayDialogMessage() { Operate = OverrayDialogMessage.OperateType.Close});
+                () =>
+                {
+                    MessengerInstance.Send(new OverrayDialogMessage() { Operate = OverrayDialogMessage.OperateType.Close });
                 });
         }
     }

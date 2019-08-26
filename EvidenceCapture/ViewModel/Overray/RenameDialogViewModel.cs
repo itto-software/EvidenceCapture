@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using EvidenceCapture.Model;
 using EvidenceCapture.Model.ProcessResult;
+using EvidenceCapture.Properties;
 using GalaSoft.MvvmLight.CommandWpf;
 
 namespace EvidenceCapture.ViewModel.Overray
@@ -121,19 +123,25 @@ namespace EvidenceCapture.ViewModel.Overray
                 result.NewGroupName = gn;
 
                 CallBak(result);
-            }
-            finally
-            {
                 CloseDialog();
+
+            }
+            catch (Exception e)
+            {
+                MessageDialog(MessageType.Error,
+                    string.Format(Resources.ErrUnexpected,
+                        e.Message));
+
+
             }
         }
 
         private bool CanOk()
         {
-            if(TreeItem != null && LevelArray != null)
+            if (TreeItem != null && LevelArray != null)
             {
                 List<int> levels = new List<int>();
-                foreach ( var l in LevelArray)
+                foreach (var l in LevelArray)
                 {
                     levels.Add(l.LevelValues[l.SelectedIndex]);
                 }

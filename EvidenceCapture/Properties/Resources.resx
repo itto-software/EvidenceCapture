@@ -138,6 +138,10 @@
   <data name="CreateButton" xml:space="preserve">
     <value>作成</value>
   </data>
+  <data name="ErrUnexpected" xml:space="preserve">
+    <value>予期せぬエラーが発生しました。
+例外エラー={0}</value>
+  </data>
   <data name="FixHeight" xml:space="preserve">
     <value>高さ変更</value>
   </data>

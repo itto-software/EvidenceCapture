@@ -1,4 +1,5 @@
 ﻿using EvidenceCapture.Model.Message;
+using EvidenceCapture.View.Overray;
 using EvidenceCapture.ViewModel.Overray;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,32 @@ namespace EvidenceCapture.ViewModel.Base
 {
     public class BaseVM : GalaSoft.MvvmLight.ViewModelBase
     {
+        public enum MessageType
+        {
+            Info,
+            Error,
+            Warn
+        }
+
+        protected void MessageDialog(MessageType type, string message)
+        {
+            var view = new MessageDialog();
+            var dc = view.DataContext as MessageDialogViewModel;
+
+            dc.Title = type.ToString();
+            dc.Message = message;
+
+            CloseDialog();
+
+            MessengerInstance.Send(new OverrayDialogMessage()
+            {
+                Operate = OverrayDialogMessage.OperateType.Open,
+                NewDialog = view,
+                CallBack = null
+            });
+
+        }
+
         protected void LaunchDialog(UserControl newDialog, Action<object> callback)
         {
             if (newDialog.DataContext is OverrayBase)

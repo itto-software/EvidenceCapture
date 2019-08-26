@@ -35,19 +35,22 @@
             <Label Content="{x:Static rs:Resources.ReportDialogTitle}" Style="{StaticResource TitleLabel}"></Label>
 
             <StackPanel Orientation="Vertical" Grid.Row="1" Margin="8">
-                <Label Content="{x:Static rs:Resources.SelectFormatCaption}" ></Label>
-                <RadioButton 
-                    GroupName="SelectFormat"
-                    IsChecked="{Binding SelectFormat, Converter={StaticResource Enum}, Mode=TwoWay, ConverterParameter=Excel}"
-                    Content="{x:Static rs:Resources.FormatExcel}"/>
-                <RadioButton 
-                    GroupName="SelectFormat"
-                    IsChecked="{Binding SelectFormat, Converter={StaticResource Enum}, Mode=TwoWay, ConverterParameter=PDF}"
-                    Content="{x:Static rs:Resources.FormatPDF}"/>
-                <RadioButton 
-                    GroupName="SelectFormat"
-                    IsChecked="{Binding SelectFormat, Converter={StaticResource Enum}, Mode=TwoWay, ConverterParameter=HTML}"
-                    Content="{x:Static rs:Resources.FormatHTML}"/>
+                <Label Content="{x:Static rs:Resources.SelectFormatCaption}" />
+                <StackPanel Margin="8">
+                    <RadioButton 
+                        GroupName="SelectFormat"
+                        IsChecked="{Binding SelectFormat, Converter={StaticResource Enum}, Mode=TwoWay, ConverterParameter=Excel}"
+                        Content="{x:Static rs:Resources.FormatExcel}"/>
+                    <RadioButton 
+                        GroupName="SelectFormat"
+                        IsChecked="{Binding SelectFormat, Converter={StaticResource Enum}, Mode=TwoWay, ConverterParameter=PDF}"
+                        Content="{x:Static rs:Resources.FormatPDF}"/>
+                    <RadioButton 
+                        GroupName="SelectFormat"
+                        IsChecked="{Binding SelectFormat, Converter={StaticResource Enum}, Mode=TwoWay, ConverterParameter=HTML}"
+                        Content="{x:Static rs:Resources.FormatHTML}"/>
+                </StackPanel>
+
             </StackPanel>
 
             <Grid Grid.Row="2" Margin="8" >

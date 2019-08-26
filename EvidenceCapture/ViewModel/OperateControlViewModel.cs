@@ -91,6 +91,10 @@ namespace EvidenceCapture.ViewModel
                 _selectedNode = value;
                 RaisePropertyChanged(nameof(SelectedNode));
 
+                if (_selectedNode.NodeFileType == SnapTreeItem.FileType.File)
+                {
+                    model.CurrentGroup = value.Parent.Name;
+                }
                 if (_selectedNode.NodeFileType == SnapTreeItem.FileType.Folder)
                 {
                     model.CurrentGroup = value.Name;
@@ -177,7 +181,7 @@ namespace EvidenceCapture.ViewModel
 
         private void RenameCallBack(object obj)
         {
-            if(obj is RenameResult)
+            if (obj is RenameResult)
             {
                 var result = obj as RenameResult;
                 model.Rename(result.OldNode,
