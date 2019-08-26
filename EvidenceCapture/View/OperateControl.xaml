@@ -8,11 +8,17 @@
              xmlns:model="clr-namespace:EvidenceCapture.Model"
              xmlns:rs="clr-namespace:EvidenceCapture.Properties"
              xmlns:custom="clr-namespace:EvidenceCapture.View.Custom"
+             xmlns:conv="clr-namespace:EvidenceCapture.View.Converter"             
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="640">
     <UserControl.DataContext>
         <vm:OperateControlViewModel/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <conv:TreeItemConverter x:Key="TreeConv" />
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -62,7 +68,7 @@
                     <KeyBinding Key="Delete" Command="{Binding RemoveNodeCommand}"/>
                     <KeyBinding Key="F2" Command="{Binding LaunchRenameDialogCommand}"/>
                 </TreeView.InputBindings>
-                
+
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded,Mode=TwoWay}"/>
@@ -70,7 +76,7 @@
                 </TreeView.Resources>
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="model:SnapTreeItem" ItemsSource="{Binding Children}">
-                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text="{Binding Converter={StaticResource TreeConv}}"/>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </custom:BindableSelectedItemTreeView>
