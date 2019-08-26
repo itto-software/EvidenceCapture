@@ -1,4 +1,5 @@
 ﻿using EvidenceCapture.Model;
+using EvidenceCapture.Model.Overray;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.Generic;
@@ -69,9 +70,11 @@ namespace EvidenceCapture.ViewModel.Overray
             model.CreateReport(CompleteCallBack);
         }
 
-        private void CompleteCallBack()
+        private void CompleteCallBack(object result)
         {
             CloseDialog();
+            CallBak(result);
+
         }
     }
 }

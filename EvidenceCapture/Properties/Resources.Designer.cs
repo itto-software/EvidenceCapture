@@ -97,6 +97,24 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   変更 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ChangeButton {
+            get {
+                return ResourceManager.GetString("ChangeButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   閉じる に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CloseButton {
+            get {
+                return ResourceManager.GetString("CloseButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   作成 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CreateButton {
@@ -151,6 +169,51 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   変更後のグループを指定してください に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string GroupRenameCaption {
+            get {
+                return ResourceManager.GetString("GroupRenameCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   下位グループをリセットする に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string GroupRenameOption {
+            get {
+                return ResourceManager.GetString("GroupRenameOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   グループ名の変更 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string GroupRenameTitle {
+            get {
+                return ResourceManager.GetString("GroupRenameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   フォルダを開く に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LaunchDirButton {
+            get {
+                return ResourceManager.GetString("LaunchDirButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ファイルを起動する に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LaunchFileButton {
+            get {
+                return ResourceManager.GetString("LaunchFileButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   レポートを出力する に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LaunchReportDialogToolTip {
@@ -174,6 +237,25 @@ namespace EvidenceCapture.Properties {
         public static string ReportDialogTitle {
             get {
                 return ResourceManager.GetString("ReportDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   レポートを出力しました。
+        ///出力先={0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ReportFinishCaption {
+            get {
+                return ResourceManager.GetString("ReportFinishCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   レポート出力が完了しました に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ReportFinishTitle {
+            get {
+                return ResourceManager.GetString("ReportFinishTitle", resourceCulture);
             }
         }
         

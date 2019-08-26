@@ -40,8 +40,10 @@ namespace EvidenceCapture.Model
             set
             {
                 ApplicationSettings.Instance.OutputDir = value;
+                RefreshTree();
             }
         }
+
 
         public bool AutoResize { get; internal set; }
 
@@ -52,6 +54,8 @@ namespace EvidenceCapture.Model
         {
             SnapShotTreeSource = new ObservableCollection<SnapTreeItem>();
             LevelInit();
+
+            RefreshTree();
         }
 
 
@@ -79,7 +83,15 @@ namespace EvidenceCapture.Model
 
             var parentNode = SnapShotTreeSource.ToList().Find(x => x.Name == CurrentGroup);
 
-            var lastNo = parentNode.Children.Count + 1;
+            var lastNo = 1;
+
+            if (parentNode.Children.Count > 0)
+            {
+                var lastFileName = Path.GetFileNameWithoutExtension(
+                    parentNode.Children.Last().Name);
+                lastNo = int.Parse(lastFileName) + 1;
+            }
+
             var newName = string.Format("{0:D3}.{1}", lastNo, ApplicationSettings.Instance.ImageFormat);
 
             parentNode.Children.Add(
@@ -174,26 +186,23 @@ namespace EvidenceCapture.Model
 
         private void LevelToGroupName()
         {
-            var sourceStr = ApplicationSettings.Instance.GroupPattern;
+            CurrentGroup = CommonUtility.GetGroupNameByLevels(levels);
 
-            var re = new Regex("\\[n\\]");
-
-            levels.Reverse();
-            levels.ForEach(
-                level =>
-                {
-                    sourceStr = re.Replace(sourceStr, level.ToString(), 1);
-
-                });
-            levels.Reverse();
-            CurrentGroup = sourceStr;
         }
 
 
         internal void AddLevel(int level = 0)
         {
-            levels[level]++;
-            LevelToGroupName();
+            levels = CommonUtility.GetLevelsByStr(CurrentGroup);
+
+            while (true)
+            {
+                levels[level]++;
+                LevelToGroupName();
+                if (SnapShotTreeSource.ToList().Count(x => x.Name == CurrentGroup) == 0)
+                    break;
+
+            }
 
             SnapShotTreeSource.Add(new SnapTreeItem()
             {
@@ -202,6 +211,81 @@ namespace EvidenceCapture.Model
                 IsExpanded = true,
                 Children = new ObservableCollection<SnapTreeItem>()
             });
+
+            var sorted = SnapShotTreeSource.ToList();
+            sorted.Sort();
+            SnapShotTreeSource.Clear();
+            sorted.ForEach(x => SnapShotTreeSource.Add(x));
+
+        }
+
+        internal void Rename(SnapTreeItem oldNode, string newGroupName)
+        {
+            var sourcePath = Path.Combine(OutputRoot, oldNode.Name);
+            var destPath = Path.Combine(OutputRoot, newGroupName);
+
+            if (Directory.Exists(sourcePath))
+            {
+                Directory.Move(sourcePath, destPath);
+            }
+            oldNode.Name = newGroupName;
+
+            var sorted = SnapShotTreeSource.ToList();
+            sorted.Sort();
+            SnapShotTreeSource.Clear();
+
+            sorted.ForEach(x => SnapShotTreeSource.Add(x));
+
+
+        }
+
+        private void RefreshTree()
+        {
+            SnapShotTreeSource.Clear();
+            if (Directory.Exists(OutputRoot))
+            {
+                string matchestr = ApplicationSettings.Instance.GroupPattern;
+
+                matchestr = matchestr.Replace("n", "1-9");
+                var re = new Regex(matchestr);
+                var fre = new Regex("[0-9]{3}.[png|jpg|bmp]");
+
+                var searchTargetDirs = Directory.EnumerateDirectories(OutputRoot);
+                foreach (var parentDir in searchTargetDirs)
+                {
+                    if (re.IsMatch(parentDir))
+                    {
+                        var parentName = Path.GetFileName(parentDir);
+
+                        var parentNode = new SnapTreeItem()
+                        {
+                            NodeFileType = SnapTreeItem.FileType.Folder,
+                            Name = parentName,
+                            IsExpanded = true,
+                            Children = new ObservableCollection<SnapTreeItem>()
+                        };
+                        SnapShotTreeSource.Add(parentNode);
+
+                        var searchTargetFiles = Directory.EnumerateFiles(parentDir);
+                        foreach (var file in searchTargetFiles)
+                        {
+                            var fileName = Path.GetFileName(file);
+                            if (fre.IsMatch(file))
+                            {
+                                parentNode.Children.Add(
+                                new SnapTreeItem()
+                                {
+                                    NodeFileType = SnapTreeItem.FileType.File,
+                                    Name = fileName,
+                                    IsExpanded = false,
+                                    Parent = parentNode
+                                });
+
+                            }
+                        }
+                    }
+                }
+            }
         }
 
     }

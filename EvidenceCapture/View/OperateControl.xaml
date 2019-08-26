@@ -60,7 +60,9 @@
                 ItemsSource="{Binding SnapList}">
                 <TreeView.InputBindings>
                     <KeyBinding Key="Delete" Command="{Binding RemoveNodeCommand}"/>
+                    <KeyBinding Key="F2" Command="{Binding LaunchRenameDialogCommand}"/>
                 </TreeView.InputBindings>
+                
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded,Mode=TwoWay}"/>

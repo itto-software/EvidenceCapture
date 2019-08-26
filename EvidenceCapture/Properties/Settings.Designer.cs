@@ -94,5 +94,17 @@ namespace EvidenceCapture.Properties {
                 this["OutputFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsUnderReset {
+            get {
+                return ((bool)(this["IsUnderReset"]));
+            }
+            set {
+                this["IsUnderReset"] = value;
+            }
+        }
     }
 }

@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace EvidenceCapture.Model
 {
-    public class SnapTreeItem : GalaSoft.MvvmLight.ViewModelBase
+    public class SnapTreeItem : GalaSoft.MvvmLight.ViewModelBase, IComparable
     {
-        public enum FileType {
+        public enum FileType
+        {
             File,
             Folder
         }
@@ -66,5 +67,27 @@ namespace EvidenceCapture.Model
             }
         }
 
+        public int CompareTo(object obj)
+        {
+            SnapTreeItem i = obj as SnapTreeItem;
+
+            var a = CommonUtility.GetLevelsByStr(this.Name);
+            var b = CommonUtility.GetLevelsByStr(i.Name);
+
+            a.Reverse();
+            b.Reverse();
+
+            foreach (var index in Enumerable.Range(0, a.Count ))
+            {
+                if (a[index] == b[index])
+                    continue;
+
+                if (a[index] > b[index])
+                    return 1;
+                return -1;
+
+            }
+            return 1;
+        }
     }
 }

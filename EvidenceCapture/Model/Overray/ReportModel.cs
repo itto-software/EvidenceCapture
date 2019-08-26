@@ -7,39 +7,47 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using EvidenceCapture.Model.ProcessResult;
 using EvidenceCapture.ViewModel.Overray;
 using Microsoft.Office.Interop.Excel;
 
-namespace EvidenceCapture.Model
+namespace EvidenceCapture.Model.Overray
 {
     class ReportModel
     {
         public ReportViewModel.FormatType SelectFormat { get; internal set; }
         public List<SnapTreeItem> TargetList { get; internal set; }
 
-        internal async void CreateReport(System.Action callBack)
+
+
+        internal async void CreateReport(System.Action<object> callBack)
         {
+            var outResult = new ReportOut();
+
             var result = await Task.Run<bool>(() =>
             {
                 switch (SelectFormat)
                 {
                     case ReportViewModel.FormatType.Excel:
-                        ExcelOut();
+                        outResult =  ExcelOut();
                         break;
 
                 }
 
                 return true;
             });
-            callBack();
+            callBack(outResult);
         }
 
-        private void ExcelOut()
+        private ReportOut ExcelOut()
         {
+            var rtn = new ReportOut();
+            rtn.ReportType = ReportOut.ReportEnum.Excel;
 
             var destPath = Path.Combine(ApplicationSettings.Instance.OutputDir,
                 "Report.xlsx");
 
+            rtn.OutputPath = destPath;
 
             dynamic excelApp = null;
             dynamic workBooks = null;
@@ -124,7 +132,7 @@ namespace EvidenceCapture.Model
                     Marshal.ReleaseComObject(shape);
 
             }
-
+            return rtn;
         }
     }
 }

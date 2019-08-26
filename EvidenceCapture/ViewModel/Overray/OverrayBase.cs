@@ -12,7 +12,7 @@ namespace EvidenceCapture.ViewModel.Overray
 {
     public class OverrayBase : BaseVM
     {
-        public virtual Action CallBak { set; get; }
+        public virtual Action<object> CallBak { set; get; }
 
 
         public virtual ICommand OkCommand { set; get; }

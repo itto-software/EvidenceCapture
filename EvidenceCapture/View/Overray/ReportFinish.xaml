@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="EvidenceCapture.View.Overray.ReportFinish"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EvidenceCapture.View.Overray"
+             xmlns:vm="clr-namespace:EvidenceCapture.ViewModel.Overray"
+             xmlns:rs="clr-namespace:EvidenceCapture.Properties"
+             xmlns:conv="clr-namespace:EvidenceCapture.View.Converter"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/View/Style/OverrayStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <conv:BoolToEnumConverter x:Key="Enum" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:ReportFinishViewModel/>
+    </UserControl.DataContext>
+    <Border Style="{StaticResource FormBaseBorder}" 
+            Width="380" 
+            Height="200">
+        <Grid 
+        Style="{StaticResource FormBase}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="{x:Static rs:Resources.ReportFinishTitle}" Style="{StaticResource TitleLabel}"></Label>
+            <StackPanel 
+                Grid.Row="1"
+                Orientation="Vertical">
+                <TextBlock
+                    TextWrapping="Wrap"
+                    Text="{Binding DialogCaption}" ></TextBlock>
+
+                <Grid Margin="8,20,8,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.48*" />
+                        <ColumnDefinition Width="0.04*" />
+                        <ColumnDefinition Width="0.48*" />
+                    </Grid.ColumnDefinitions>
+                    <Button 
+                        Command="{Binding ShowFileCommand}"
+                        Content="{x:Static rs:Resources.LaunchFileButton}"/>
+                    <Button 
+                        Command="{Binding ShowDirCommand}"
+                        Content="{x:Static rs:Resources.LaunchDirButton}" Grid.Column="2"/>
+
+                </Grid>
+            </StackPanel>
+
+
+            <Button 
+                    Grid.Row="2" Margin="8"
+                    Command="{Binding CancelCommand}"
+                    Content="{x:Static rs:Resources.CloseButton}" Grid.Column="2"/>
+
+        </Grid>
+    </Border>
+</UserControl>

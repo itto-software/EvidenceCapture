@@ -11,7 +11,7 @@ namespace EvidenceCapture.ViewModel.Base
 {
     public class BaseVM : GalaSoft.MvvmLight.ViewModelBase
     {
-        protected void LaunchDialog(UserControl newDialog, Action callback)
+        protected void LaunchDialog(UserControl newDialog, Action<object> callback)
         {
             if (newDialog.DataContext is OverrayBase)
             {

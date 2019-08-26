@@ -81,7 +81,9 @@
     <Compile Include="Model\KeyboardHook.cs" />
     <Compile Include="Model\Message\OverrayDialogMessage.cs" />
     <Compile Include="Model\OperateControlModel.cs" />
-    <Compile Include="Model\ReportModel.cs" />
+    <Compile Include="Model\Overray\ReportModel.cs" />
+    <Compile Include="Model\ProcessResult\RenameResult.cs" />
+    <Compile Include="Model\ProcessResult\ReportOut.cs" />
     <Compile Include="Model\SnapHelper.cs" />
     <Compile Include="Model\SnapTreeItem.cs" />
     <Compile Include="Properties\DisplaySettings.Designer.cs">
@@ -92,9 +94,13 @@
     <Compile Include="ViewModel\Base\BaseVM.cs" />
     <Compile Include="ViewModel\ImageProcessingViewModel.cs" />
     <Compile Include="ViewModel\OperateControlViewModel.cs" />
+    <Compile Include="ViewModel\Overray\LevelItem.cs" />
     <Compile Include="ViewModel\Overray\OverrayBase.cs" />
+    <Compile Include="ViewModel\Overray\RenameDialogViewModel.cs" />
+    <Compile Include="ViewModel\Overray\ReportFinishViewModel.cs" />
     <Compile Include="ViewModel\Overray\ReportViewModel.cs" />
     <Compile Include="View\Converter\BoolToEnumConverter.cs" />
+    <Compile Include="View\Custom\BindableCommandCombobox.cs" />
     <Compile Include="View\Custom\BindableSelectedItemTreeView.cs" />
     <Compile Include="View\ImageProcessingControl.xaml.cs">
       <DependentUpon>ImageProcessingControl.xaml</DependentUpon>
@@ -102,8 +108,14 @@
     <Compile Include="View\OperateControl.xaml.cs">
       <DependentUpon>OperateControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Overray\RenameDialog.xaml.cs">
+      <DependentUpon>RenameDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Overray\ReportDialog.xaml.cs">
       <DependentUpon>ReportDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Overray\ReportFinish.xaml.cs">
+      <DependentUpon>ReportFinish.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WaitingCircle.xaml.cs">
       <DependentUpon>WaitingCircle.xaml</DependentUpon>
@@ -131,7 +143,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Overray\RenameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Overray\ReportDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Overray\ReportFinish.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -215,5 +235,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,7 +1,8 @@
 ﻿using EvidenceCapture.Model;
+using EvidenceCapture.Model.ProcessResult;
+using EvidenceCapture.View.Overray;
 using EvidenceCapture.ViewModel.Base;
 using EvidenceCapture.ViewModel.Overray;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using HongliangSoft.Utilities;
 using System;
@@ -9,14 +10,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace EvidenceCapture.ViewModel
 {
+    /// <summary>操作パネルのViewModel</summary>
     class OperateControlViewModel : BaseVM
     {
         #region Fields
@@ -41,8 +39,11 @@ namespace EvidenceCapture.ViewModel
         /// <summary>ノード削除コマンド</summary>
         public ICommand RemoveNodeCommand { get; private set; }
 
-        /// <summary>レポート出力起動コマンド</summary>
+        /// <summary>レポートダイアログ出力起動コマンド</summary>
         public ICommand LaunchReportDialogCommand { get; private set; }
+
+        /// <summary>リネームダイアログ起動コマンド</summary>
+        public ICommand LaunchRenameDialogCommand { get; private set; }
 
         public string SelectedOutputPath
         {
@@ -87,30 +88,27 @@ namespace EvidenceCapture.ViewModel
             }
             set
             {
-                if (value != _selectedNode)
+                _selectedNode = value;
+                RaisePropertyChanged(nameof(SelectedNode));
+
+                if (_selectedNode.NodeFileType == SnapTreeItem.FileType.Folder)
                 {
-                    _selectedNode = value;
-                    RaisePropertyChanged(nameof(SelectedNode));
+                    model.CurrentGroup = value.Name;
+                }
 
-                    if (_selectedNode.NodeFileType == SnapTreeItem.FileType.Folder)
-                    {
-                        model.CurrentGroup = value.Name;
-                    }
+                // ファイルノードならプレビューを更新する
+                if (_selectedNode.NodeFileType == SnapTreeItem.FileType.File)
+                {
+                    var targetPath = Path.Combine(
+                        model.OutputRoot,
+                        _selectedNode.Parent.Name,
+                        _selectedNode.Name);
 
-                    // ファイルノードならプレビューを更新する
-                    if (_selectedNode.NodeFileType == SnapTreeItem.FileType.File)
-                    {
-                        var targetPath = Path.Combine(
-                            model.OutputRoot,
-                            _selectedNode.Parent.Name,
-                            _selectedNode.Name);
-
-                        ImageProcessingVM.TargetPath = targetPath;
-                    }
-                    else
-                    {
-                        ImageProcessingVM.TargetPath = null;
-                    }
+                    ImageProcessingVM.TargetPath = targetPath;
+                }
+                else
+                {
+                    ImageProcessingVM.TargetPath = null;
                 }
             }
         }
@@ -158,15 +156,41 @@ namespace EvidenceCapture.ViewModel
             SetOutputPathCommand = new RelayCommand(SetOutputPathImpl);
             RemoveNodeCommand = new RelayCommand(RemoveNodeImpl);
             AddGroupCommand = new RelayCommand(AddGroupImpl);
-            LaunchReportDialogCommand = new RelayCommand(
-                () =>
-                {
-                    var view = new View.Overray.ReportDialog();
-                    (view.DataContext as ReportViewModel).TargetList = new List<SnapTreeItem>(this.SnapList.ToList());
-                    LaunchDialog(view, ReportCallBack);
-                }, CanLaunchReport
-                );
+            LaunchReportDialogCommand = new RelayCommand(LanchReportDialogImpl, CanLaunchReport);
+            LaunchRenameDialogCommand = new RelayCommand(LaunchRenameDialogmpl);
+        }
 
+        /// <summary>リネームダイアログ起動の実装</summary>
+        /// <param name="param"></param>
+        private void LaunchRenameDialogmpl()
+        {
+            if (SelectedNode != null && SelectedNode.NodeFileType == SnapTreeItem.FileType.Folder)
+            {
+                var view = new RenameDialog();
+                var vm = view.DataContext as RenameDialogViewModel;
+                vm.TargetNode = SelectedNode;
+                vm.TreeItem = model.SnapShotTreeSource;
+                LaunchDialog(view, RenameCallBack);
+
+            }
+        }
+
+        private void RenameCallBack(object obj)
+        {
+            if(obj is RenameResult)
+            {
+                var result = obj as RenameResult;
+                model.Rename(result.OldNode,
+                    result.NewGroupName);
+            }
+        }
+
+        /// <summary>レポートダイアログ起動の実装</summary>
+        private void LanchReportDialogImpl()
+        {
+            var view = new ReportDialog();
+            (view.DataContext as ReportViewModel).TargetList = new List<SnapTreeItem>(this.SnapList.ToList());
+            LaunchDialog(view, ReportCallBack);
         }
 
         private bool CanLaunchReport()
@@ -176,14 +200,21 @@ namespace EvidenceCapture.ViewModel
             {
                 HasChild |= item.Children.Count > 0;
             }
-            
 
-            return (this.SnapList != null && HasChild );
+
+            return (this.SnapList != null && HasChild);
         }
 
-        private void ReportCallBack()
+        private void ReportCallBack(object result)
         {
-            // OK後のふるまい
+            if (result != null && result is ReportOut)
+            {
+                var rt = result as ReportOut;
+                var view = new ReportFinish();
+                (view.DataContext as ReportFinishViewModel).ReportOut = rt;
+                LaunchDialog(view, null);
+
+            }
         }
 
         private void AddGroupImpl()

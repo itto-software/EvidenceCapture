@@ -16,7 +16,7 @@ namespace EvidenceCapture.Model.Message
             Waiting
         }
 
-        public Action CallBack { get; internal set; }
+        public Action<object> CallBack { get; internal set; }
         internal OperateType Operate { get; set; }
         internal UserControl NewDialog { get; set; }
 

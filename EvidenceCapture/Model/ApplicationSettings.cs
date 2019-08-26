@@ -105,6 +105,20 @@ namespace EvidenceCapture.Model
             }
         }
 
+        /// <summary>下位グループのリセット有無</summary>
+        public bool IsUnderReset
+        {
+            get
+            {
+                return Properties.Settings.Default.IsUnderReset;
+            }
+            set
+            {
+                Properties.Settings.Default.IsUnderReset = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
 
         #endregion
 
