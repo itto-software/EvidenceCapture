@@ -236,6 +236,8 @@ namespace EvidenceCapture.ViewModel
             {
                 model.RemoveTree(SelectedNode);
 
+                SnapList = new ObservableCollection<SnapTreeItem>(SnapList);
+
             }
         }
 
@@ -275,6 +277,10 @@ namespace EvidenceCapture.ViewModel
                         {
                             model.AddCapture();
                         }
+
+                        SnapList = new ObservableCollection<SnapTreeItem>(SnapList);
+
+
                         break;
                 }
             }

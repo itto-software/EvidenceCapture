@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:EvidenceCapture.ViewModel"
              xmlns:model="clr-namespace:EvidenceCapture.Model"
              xmlns:rs="clr-namespace:EvidenceCapture.Properties"
-             xmlns:custom="clr-namespace:EvidenceCapture.View.Custom"
+             xmlns:custom="clr-namespace:EvidenceCapture.View.CustomControl"
              xmlns:conv="clr-namespace:EvidenceCapture.View.Converter"             
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="640">
@@ -76,7 +76,7 @@
                 </TreeView.Resources>
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="model:SnapTreeItem" ItemsSource="{Binding Children}">
-                        <TextBlock Text="{Binding Converter={StaticResource TreeConv}}"/>
+                        <TextBlock Text="{Binding Converter={StaticResource TreeConv},UpdateSourceTrigger=PropertyChanged}"/>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </custom:BindableSelectedItemTreeView>

@@ -44,11 +44,8 @@ namespace EvidenceCapture.Model
             }
             set
             {
-                if (value != _name)
-                {
-                    _name = value;
-                    RaisePropertyChanged(nameof(Name));
-                }
+                _name = value;
+                RaisePropertyChanged(nameof(Name));
             }
         }
         public ObservableCollection<SnapTreeItem> Children
@@ -77,7 +74,7 @@ namespace EvidenceCapture.Model
             a.Reverse();
             b.Reverse();
 
-            foreach (var index in Enumerable.Range(0, a.Count ))
+            foreach (var index in Enumerable.Range(0, a.Count))
             {
                 if (a[index] == b[index])
                     continue;

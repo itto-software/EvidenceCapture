@@ -127,10 +127,12 @@
     <Compile Include="ViewModel\Overray\RenameDialogViewModel.cs" />
     <Compile Include="ViewModel\Overray\ReportFinishViewModel.cs" />
     <Compile Include="ViewModel\Overray\ReportViewModel.cs" />
+    <Compile Include="View\AttachedProperty\DragCanvas.cs" />
+    <Compile Include="View\AttachedProperty\StateManage.cs" />
     <Compile Include="View\Converter\BoolToEnumConverter.cs" />
     <Compile Include="View\Converter\TreeItemConverter.cs" />
-    <Compile Include="View\Custom\BindableCommandCombobox.cs" />
-    <Compile Include="View\Custom\BindableSelectedItemTreeView.cs" />
+    <Compile Include="View\CustomControl\BindableCommandCombobox.cs" />
+    <Compile Include="View\CustomControl\BindableSelectedItemTreeView.cs" />
     <Compile Include="View\ImageProcessingControl.xaml.cs">
       <DependentUpon>ImageProcessingControl.xaml</DependentUpon>
     </Compile>

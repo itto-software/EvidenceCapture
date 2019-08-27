@@ -86,12 +86,12 @@ namespace EvidenceCapture.Model.Overray
             sb.Append(@"<html>");
             foreach (var pn in TargetList)
             {
-                sb.Append(@"<div style='margin:2em;'>");
+                sb.Append(@"<div style='margin:2em;page-break-after:always;'>");
                 sb.Append($"<p>{pn.Name}</p>");
                 foreach (var cn in pn.Children)
                 {
                     sb.Append(@"<div style='margin:2em;'>");
-                    sb.Append($"<img src='{ApplicationSettings.Instance.OutputDir}/{pn.Name}/{cn.Name}' style='width:60%;border:inset  1px;'>");
+                    sb.Append($"<img src='{ApplicationSettings.Instance.OutputDir}/{pn.Name}/{cn.Name}' style='width:80%;border:inset 1px;'>");
                     sb.Append(@"</div>");
 
                 }

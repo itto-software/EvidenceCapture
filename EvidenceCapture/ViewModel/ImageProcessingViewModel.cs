@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using EvidenceCapture.Model;
@@ -24,6 +25,9 @@ namespace EvidenceCapture.ViewModel
 
         bool isEnableWidth = true;
         bool isEnableHeight = true;
+        private bool _isDragble;
+        private System.Windows.Point _dragedPoint;
+        private System.Windows.Size _dragedSize;
 
         #endregion
 
@@ -33,6 +37,8 @@ namespace EvidenceCapture.ViewModel
         public ICommand ResizeWidthCommand { get; private set; }
 
         public ICommand ResizeHeightCommand { get; private set; }
+
+        public ICommand ImageTrimCommand { get; private set; }
 
         public bool ControlEnable
         {
@@ -109,6 +115,45 @@ namespace EvidenceCapture.ViewModel
             }
         }
 
+        public bool IsDragble
+        {
+            get
+            {
+                return _isDragble;
+            }
+            set
+            {
+                _isDragble = value;
+                RaisePropertyChanged(nameof(IsDragble));
+            }
+        }
+
+        public System.Windows.Size DragedSize
+        {
+            get
+            {
+                return _dragedSize;
+            }
+            set
+            {
+                _dragedSize = value;
+                RaisePropertyChanged(nameof(DragedSize));
+                RaisePropertyChanged(nameof(SizeStr));
+            }
+        }
+        public System.Windows.Point DragedPoint
+        {
+            get
+            {
+                return _dragedPoint;
+            }
+            set
+            {
+                _dragedPoint = value;
+                RaisePropertyChanged(nameof(DragedPoint));
+                RaisePropertyChanged(nameof(PointStr));
+            }
+        }
 
         public string Width
         {
@@ -137,6 +182,24 @@ namespace EvidenceCapture.ViewModel
         }
 
 
+        public string PointStr
+        {
+            get
+            {
+                return $"({(int)DragedPoint.X,4}, {(int)DragedPoint.Y,4})";
+            }
+        }
+
+
+
+        public string SizeStr
+        {
+            get
+            {
+                return $"{(int)DragedSize.Width,4} * {(int)DragedSize.Height,4}";
+            }
+        }
+
         #endregion
 
 
@@ -162,11 +225,39 @@ namespace EvidenceCapture.ViewModel
         {
             ResizeWidthCommand = new RelayCommand(ResizeWidthImpl, CanResizeWidth);
             ResizeHeightCommand = new RelayCommand(ResizeHeightImpl, CanResizeHeight);
+            ImageTrimCommand = new RelayCommand(ImageTrimImpl, CanImageTrim);
 
             NewWidth = ApplicationSettings.Instance.DefaultWidth.ToString();
             NewHeight = ApplicationSettings.Instance.DefaultHeight.ToString();
 
             RefreshSizeInfo();
+
+            IsDragble = true;
+        }
+
+        private void ImageTrimImpl()
+        {
+            if (File.Exists(TargetPath))
+            {
+                var bmp = new Bitmap(TargetPath);
+                var newBmp = ImageHelper.Trim(bmp, DragedPoint, DragedSize);
+
+                bmp.Dispose();
+                newBmp.Save(TargetPath);
+                newBmp.Dispose();
+
+                Preview = ImageHelper.GetImageSource(TargetPath);
+                RefreshSizeInfo(TargetPath);
+            }
+            else
+            {
+                // todo : 要エラーハンドリング
+            }
+        }
+
+        private bool CanImageTrim()
+        {
+            return !DragedSize.IsEmpty && (int)(DragedSize.Width) > 0 && (int)(DragedSize.Height) > 0;
         }
 
         private bool CanResizeHeight()

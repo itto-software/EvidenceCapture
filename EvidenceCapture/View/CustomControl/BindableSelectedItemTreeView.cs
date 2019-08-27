@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EvidenceCapture.View.Custom
+namespace EvidenceCapture.View.CustomControl
 {
     /// <summary>
     /// SelectedItem をバインド可能にする TreeView の拡張コントロールです。

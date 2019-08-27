@@ -233,6 +233,15 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   座標 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Location {
+            get {
+                return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   OK に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OkButton {
@@ -284,6 +293,24 @@ namespace EvidenceCapture.Properties {
         public static string SetFolderToolTip {
             get {
                 return ResourceManager.GetString("SetFolderToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   サイズ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Size {
+            get {
+                return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   トリミング に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TrimButton {
+            get {
+                return ResourceManager.GetString("TrimButton", resourceCulture);
             }
         }
     }

@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:EvidenceCapture.ViewModel.Overray"
              xmlns:rs="clr-namespace:EvidenceCapture.Properties"
              xmlns:conv="clr-namespace:EvidenceCapture.View.Converter"
-             xmlns:custom="clr-namespace:EvidenceCapture.View.Custom"
+             xmlns:custom="clr-namespace:EvidenceCapture.View.CustomControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>

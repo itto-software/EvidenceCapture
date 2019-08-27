@@ -13,7 +13,7 @@ namespace EvidenceCapture.View.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is SnapTreeItem)
+            if (value is SnapTreeItem)
             {
                 var obj = value as SnapTreeItem;
                 if (obj.NodeFileType == SnapTreeItem.FileType.File)
@@ -30,7 +30,7 @@ namespace EvidenceCapture.View.Converter
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return value;
         }
     }
 }

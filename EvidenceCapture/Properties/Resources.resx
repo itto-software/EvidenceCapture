@@ -175,6 +175,9 @@
   <data name="LaunchReportDialogToolTip" xml:space="preserve">
     <value>レポートを出力する</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>座標</value>
+  </data>
   <data name="OkButton" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -193,5 +196,11 @@
   </data>
   <data name="SetFolderToolTip" xml:space="preserve">
     <value>出力先フォルダの設定</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="TrimButton" xml:space="preserve">
+    <value>トリミング</value>
   </data>
 </root>

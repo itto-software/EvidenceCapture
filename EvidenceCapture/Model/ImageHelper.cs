@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EvidenceCapture.Model
 {
@@ -70,6 +71,22 @@ namespace EvidenceCapture.Model
             {
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                 g.DrawImage(sourceBmp, 0, 0, newWidth, newHeight);
+            }
+
+            return newBmp;
+        }
+
+        internal static Bitmap Trim(Bitmap sourceBmp, System.Windows.Point dragedPoint, System.Windows.Size dragedSize)
+        {
+            var newBmp = new Bitmap((int)(dragedSize.Width), (int)(dragedSize.Height));
+            using (var g = Graphics.FromImage(newBmp))
+            {
+                Rectangle srcRect = new Rectangle((int)dragedPoint.X, (int)dragedPoint.Y, newBmp.Width, newBmp.Height);
+                Rectangle destRect = new Rectangle(0, 0, newBmp.Width, newBmp.Height);
+
+
+                //                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.DrawImage(sourceBmp, destRect, srcRect, GraphicsUnit.Pixel);
             }
 
             return newBmp;

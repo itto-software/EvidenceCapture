@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EvidenceCapture.View.Custom
+namespace EvidenceCapture.View.CustomControl
 {
     public class BindableCommandCombobox : ComboBox, ICommandSource
     {
