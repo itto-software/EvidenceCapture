@@ -119,6 +119,67 @@ namespace EvidenceCapture.Model
             }
         }
 
+        public string KeyShortCutScreenCap
+        {
+            get
+            {
+                return Properties.Settings.Default.KeyShortCutScreenCap;
+            }
+            set
+            {
+                Properties.Settings.Default.KeyShortCutScreenCap = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+        public string KeyShortCutApplicationCap
+        {
+            get
+            {
+                return Properties.Settings.Default.KeyShortCutApplicationCap;
+            }
+            set
+            {
+                Properties.Settings.Default.KeyShortCutApplicationCap = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+        public string KeyShortCutG1
+        {
+            get
+            {
+                return Properties.Settings.Default.KeyShortCutG1;
+            }
+            set
+            {
+                Properties.Settings.Default.KeyShortCutG1 = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+        public string KeyShortCutG2
+        {
+            get
+            {
+                return Properties.Settings.Default.KeyShortCutG2;
+            }
+            set
+            {
+                Properties.Settings.Default.KeyShortCutG2 = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+        public string KeyShortCutG3
+        {
+            get
+            {
+                return Properties.Settings.Default.KeyShortCutG3;
+            }
+            set
+            {
+                Properties.Settings.Default.KeyShortCutG3 = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
 
         #endregion
 

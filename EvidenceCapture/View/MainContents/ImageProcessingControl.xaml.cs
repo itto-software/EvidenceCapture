@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EvidenceCapture.View
+namespace EvidenceCapture.View.MainContents
 {
     /// <summary>
-    /// OperateControl.xaml の相互作用ロジック
+    /// ImageProcessingControl.xaml の相互作用ロジック
     /// </summary>
-    public partial class OperateControl : UserControl
+    public partial class ImageProcessingControl : UserControl
     {
-        public OperateControl()
+        public ImageProcessingControl()
         {
             InitializeComponent();
         }

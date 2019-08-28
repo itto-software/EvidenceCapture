@@ -23,5 +23,20 @@
     <Setting Name="IsUnderReset" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="KeyShortCutScreenCap" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alt + PrintScreen</Value>
+    </Setting>
+    <Setting Name="KeyShortCutApplicationCap" Type="System.String" Scope="User">
+      <Value Profile="(Default)">PrintScreen</Value>
+    </Setting>
+    <Setting Name="KeyShortCutG1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alt + D1</Value>
+    </Setting>
+    <Setting Name="KeyShortCutG2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alt + D2</Value>
+    </Setting>
+    <Setting Name="KeyShortCutG3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alt + D3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

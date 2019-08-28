@@ -120,6 +120,9 @@
   <data name="AddGroupToolTip" xml:space="preserve">
     <value>グループの追加</value>
   </data>
+  <data name="AppliactionSettingControlTooltip" xml:space="preserve">
+    <value>アプリケーション設定</value>
+  </data>
   <data name="AppTitle" xml:space="preserve">
     <value>EvidenceCapture</value>
   </data>
@@ -181,6 +184,9 @@
   <data name="OkButton" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="OperateControlTooltip" xml:space="preserve">
+    <value>スナップショットキャプチャ</value>
+  </data>
   <data name="ReportDialogTitle" xml:space="preserve">
     <value>レポート出力</value>
   </data>
@@ -202,5 +208,47 @@
   </data>
   <data name="TrimButton" xml:space="preserve">
     <value>トリミング</value>
+  </data>
+  <data name="ApplyButton" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="ImageFormatBmp" xml:space="preserve">
+    <value>bmp型式</value>
+  </data>
+  <data name="ImageFormatJpg" xml:space="preserve">
+    <value>jpeg型式</value>
+  </data>
+  <data name="ImageFormatPng" xml:space="preserve">
+    <value>png型式</value>
+  </data>
+  <data name="ImageSettingExpander" xml:space="preserve">
+    <value>スナップショット書式</value>
+  </data>
+  <data name="KeySettingExpander" xml:space="preserve">
+    <value>キーショートカット</value>
+  </data>
+  <data name="KeyShortCutApplicationCap" xml:space="preserve">
+    <value>アクティブウインドウキャプチャー</value>
+  </data>
+  <data name="KeyShortCutG1" xml:space="preserve">
+    <value>グループ追加(レベル1)</value>
+  </data>
+  <data name="KeyShortCutG2" xml:space="preserve">
+    <value>グループ追加(レベル2)</value>
+  </data>
+  <data name="KeyShortCutG3" xml:space="preserve">
+    <value>グループ追加(レベル3)</value>
+  </data>
+  <data name="KeyShortCutScreenCap" xml:space="preserve">
+    <value>スクリーンキャプチャー</value>
+  </data>
+  <data name="SnapShotFormatHeight" xml:space="preserve">
+    <value>リサイズのデフォルト(高さ)</value>
+  </data>
+  <data name="SnapShotFormatOutFormat" xml:space="preserve">
+    <value>出力フォーマット</value>
+  </data>
+  <data name="SnapShotFormatWidth" xml:space="preserve">
+    <value>リサイズのデフォルト(幅)</value>
   </data>
 </root>

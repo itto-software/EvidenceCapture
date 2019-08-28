@@ -70,6 +70,24 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   アプリケーション設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AppliactionSettingControlTooltip {
+            get {
+                return ResourceManager.GetString("AppliactionSettingControlTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   適用 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ApplyButton {
+            get {
+                return ResourceManager.GetString("ApplyButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   EvidenceCapture に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AppTitle {
@@ -206,6 +224,96 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   bmp型式 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImageFormatBmp {
+            get {
+                return ResourceManager.GetString("ImageFormatBmp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   jpeg型式 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImageFormatJpg {
+            get {
+                return ResourceManager.GetString("ImageFormatJpg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   png型式 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImageFormatPng {
+            get {
+                return ResourceManager.GetString("ImageFormatPng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   スナップショット書式 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ImageSettingExpander {
+            get {
+                return ResourceManager.GetString("ImageSettingExpander", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   キーショートカット に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string KeySettingExpander {
+            get {
+                return ResourceManager.GetString("KeySettingExpander", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   アクティブウインドウキャプチャー に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string KeyShortCutApplicationCap {
+            get {
+                return ResourceManager.GetString("KeyShortCutApplicationCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   グループ追加(レベル1) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string KeyShortCutG1 {
+            get {
+                return ResourceManager.GetString("KeyShortCutG1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   グループ追加(レベル2) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string KeyShortCutG2 {
+            get {
+                return ResourceManager.GetString("KeyShortCutG2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   グループ追加(レベル3) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string KeyShortCutG3 {
+            get {
+                return ResourceManager.GetString("KeyShortCutG3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   スクリーンキャプチャー に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string KeyShortCutScreenCap {
+            get {
+                return ResourceManager.GetString("KeyShortCutScreenCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   フォルダを開く に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LaunchDirButton {
@@ -247,6 +355,15 @@ namespace EvidenceCapture.Properties {
         public static string OkButton {
             get {
                 return ResourceManager.GetString("OkButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   スナップショットキャプチャ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OperateControlTooltip {
+            get {
+                return ResourceManager.GetString("OperateControlTooltip", resourceCulture);
             }
         }
         
@@ -302,6 +419,33 @@ namespace EvidenceCapture.Properties {
         public static string Size {
             get {
                 return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   リサイズのデフォルト(高さ) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SnapShotFormatHeight {
+            get {
+                return ResourceManager.GetString("SnapShotFormatHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   出力フォーマット に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SnapShotFormatOutFormat {
+            get {
+                return ResourceManager.GetString("SnapShotFormatOutFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   リサイズのデフォルト(幅) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SnapShotFormatWidth {
+            get {
+                return ResourceManager.GetString("SnapShotFormatWidth", resourceCulture);
             }
         }
         

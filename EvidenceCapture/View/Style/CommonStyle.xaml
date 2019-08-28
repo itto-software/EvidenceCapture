@@ -3,6 +3,41 @@
                     xmlns:local="clr-namespace:EvidenceCapture.View.Style"
                      xmlns:custom="clr-namespace:EvidenceCapture.View.CustomControl">
 
+    <Style TargetType="{x:Type TextBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBoxBase">
+                    <Border Name="Border"
+                            CornerRadius="10"
+                            BorderBrush="DimGray"
+                            Background="WhiteSmoke"
+                            BorderThickness="1">
+                        <ScrollViewer Margin="2"
+                            x:Name="PART_ContentHost" 
+                                      TextBlock.FontSize="17"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- 非活性時 -->
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Border" Property="Background"  Value="DarkGray"/>
+                            <Setter TargetName="PART_ContentHost" Property="TextBlock.Foreground"  Value="Silver"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+        
+    <Style TargetType="{x:Type Expander}">
+        <Setter Property="BorderBrush" Value="Silver"></Setter>
+        <Setter Property="IsExpanded" Value="True"></Setter>
+        <Setter Property="Margin" Value="0,0,0,8"></Setter>
+        <Setter Property="TextBlock.Foreground" Value="Silver"></Setter>
+        <Setter Property="TextBlock.FontSize" Value="17"></Setter>
+
+    </Style>
+    
     <Style TargetType="Rectangle" x:Key="SelectingArea">
         <Setter Property="Fill" Value="Transparent"></Setter>
         <Setter Property="Stroke" Value="WhiteSmoke"></Setter>

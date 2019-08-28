@@ -106,5 +106,65 @@ namespace EvidenceCapture.Properties {
                 this["IsUnderReset"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alt + PrintScreen")]
+        public string KeyShortCutScreenCap {
+            get {
+                return ((string)(this["KeyShortCutScreenCap"]));
+            }
+            set {
+                this["KeyShortCutScreenCap"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("PrintScreen")]
+        public string KeyShortCutApplicationCap {
+            get {
+                return ((string)(this["KeyShortCutApplicationCap"]));
+            }
+            set {
+                this["KeyShortCutApplicationCap"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alt + D1")]
+        public string KeyShortCutG1 {
+            get {
+                return ((string)(this["KeyShortCutG1"]));
+            }
+            set {
+                this["KeyShortCutG1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alt + D2")]
+        public string KeyShortCutG2 {
+            get {
+                return ((string)(this["KeyShortCutG2"]));
+            }
+            set {
+                this["KeyShortCutG2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alt + D3")]
+        public string KeyShortCutG3 {
+            get {
+                return ((string)(this["KeyShortCutG3"]));
+            }
+            set {
+                this["KeyShortCutG3"] = value;
+            }
+        }
     }
 }

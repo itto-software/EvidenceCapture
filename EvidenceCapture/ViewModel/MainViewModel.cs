@@ -1,9 +1,12 @@
 
+using EvidenceCapture.Model;
 using EvidenceCapture.Model.Message;
 using EvidenceCapture.ViewModel.Base;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -11,12 +14,22 @@ namespace EvidenceCapture.ViewModel
 {
     public class MainViewModel : BaseVM
     {
+        public enum ContentsType
+        {
+            OperateControl,
+            AppliactionSettingControl
+        }
+
+
         #region Fields
+
+        private Dictionary<ContentsType, UserControl> mainContentsCache;
 
         private bool _showOverRay;
         private bool _showWaiting;
         private UserControl _subDialog;
         private bool _showDialog;
+        private UserControl _mainContents;
 
         #endregion
 
@@ -35,6 +48,23 @@ namespace EvidenceCapture.ViewModel
         /// アプリケーション終了コマンド
         /// </summary>
         public ICommand ExitApplicationCommand { get; private set; }
+
+        /// <summary>メインコンテンツ変更コマンド</summary>
+        public ICommand ContentsSwitchCommand { get; private set; }
+
+        public UserControl MainContents
+        {
+            get
+            {
+                return _mainContents;
+            }
+            set
+            {
+                _mainContents = value;
+                RaisePropertyChanged(nameof(MainContents));
+            }
+
+        }
 
         /// <summary>ローディングの表示、表示</summary>
         public bool ShowWaiting
@@ -118,6 +148,8 @@ namespace EvidenceCapture.ViewModel
                 MessengerInstance.Send(new WindowOperateMessage() { Operate = WindowOperateMessage.OperateEnum.ExitApplicationCommand });
             });
 
+            ContentsSwitchCommand = new RelayCommand<ContentsType>(ContentsSwitchAction);
+
 
             // オーバーレイウインドウレシーバーを登録
             GalaSoft.MvvmLight.Messaging.Messenger.Default.Register(this, (Action<OverrayDialogMessage>)OverrayDialogReceiver);
@@ -126,8 +158,25 @@ namespace EvidenceCapture.ViewModel
             ShowOverRay = false;
             ShowWaiting = false;
 
+            // メインコンテンツのキャッシュを初期化
+            mainContentsCache = new Dictionary<ContentsType, UserControl>();
+            mainContentsCache.Add(ContentsType.OperateControl, new View.MainContents.OperateControl());
+            mainContentsCache.Add(ContentsType.AppliactionSettingControl, new View.MainContents.AppliactionSettingControl());
+
+            MainContents = mainContentsCache[ContentsType.OperateControl];
         }
 
+        private void ContentsSwitchAction(ContentsType param)
+        {
+            if (MainContents.DataContext is IMainContents)
+            {
+                var mcd = MainContents.DataContext as IMainContents;
+                mcd.DetachContens();
+                MainContents = mainContentsCache[param];
+                mcd = MainContents.DataContext as IMainContents;
+                mcd.AttacheContens();
+            }
+        }
 
         private void OverrayDialogReceiver(OverrayDialogMessage odlg)
         {

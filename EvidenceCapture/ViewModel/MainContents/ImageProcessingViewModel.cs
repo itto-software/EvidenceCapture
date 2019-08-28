@@ -9,7 +9,7 @@ using EvidenceCapture.ViewModel.Base;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 
-namespace EvidenceCapture.ViewModel
+namespace EvidenceCapture.ViewModel.MainContents
 {
     /// <summary>画像編集パネルのViewModel</summary>
     public class ImageProcessingViewModel : BaseVM

@@ -27,6 +27,8 @@ namespace EvidenceCapture.View
 
         public MainWindow()
         {
+
+
             InitializeComponent();
 
             // ウインドステータス更新メッセージレシーバーを登録
@@ -38,9 +40,17 @@ namespace EvidenceCapture.View
             this.Closing += _OnClosing;
 
             if (Properties.DisplaySettings.Default.DefaultDisplayIsNormal)
+            {
                 this.WindowState = WindowState.Normal;
+                this.normOrMax.Content = "1";
+
+            }
             else
+            {
                 this.WindowState = WindowState.Maximized;
+                this.normOrMax.Content = "2";
+
+            }
 
         }
 
@@ -57,19 +67,23 @@ namespace EvidenceCapture.View
                     break;
                 case WindowOperateMessage.OperateEnum.ToNormal:
                     this.WindowState = WindowState.Normal;
+                    this.normOrMax.Content = "1";
                     break;
                 case WindowOperateMessage.OperateEnum.ToMaximam:
                     this.WindowState = WindowState.Maximized;
                     break;
-
                 case WindowOperateMessage.OperateEnum.ToNormalOrMaximam:
                     if (this.WindowState == WindowState.Maximized)
                     {
                         this.WindowState = WindowState.Normal;
+                        this.normOrMax.Content = "1";
+
                     }
                     else
                     {
                         this.WindowState = WindowState.Maximized;
+                        this.normOrMax.Content = "2";
+
                     }
                     break;
             }

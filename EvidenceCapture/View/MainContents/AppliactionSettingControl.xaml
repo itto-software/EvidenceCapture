@@ -1,0 +1,144 @@
+﻿<UserControl x:Class="EvidenceCapture.View.MainContents.AppliactionSettingControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EvidenceCapture.View.MainContents"
+             xmlns:model="clr-namespace:EvidenceCapture.Model"
+             xmlns:rs="clr-namespace:EvidenceCapture.Properties"
+             xmlns:custom="clr-namespace:EvidenceCapture.View.CustomControl"
+             xmlns:ap="clr-namespace:EvidenceCapture.View.AttachedProperty"
+             xmlns:conv="clr-namespace:EvidenceCapture.View.Converter"
+             xmlns:vm="clr-namespace:EvidenceCapture.ViewModel.MainContents"
+            xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" 
+             d:DesignWidth="700">
+    <UserControl.DataContext>
+        <vm:ApplicationSettingViewModel/>
+    </UserControl.DataContext>
+    <Grid  Margin="8" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+                <Expander
+            Header="{x:Static rs:Resources.ImageSettingExpander}">
+                    <StackPanel Margin="8">
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.SnapShotFormatOutFormat}">
+                            <custom:LabelAndValue.ValueContent>
+                                <ComboBox SelectedItem="{Binding SnapShotFormatOutFormat}"
+                                          ItemsSource="{Binding ImageFormatComboList}"
+                                          DisplayMemberPath="Label"
+                                          SelectedValue=""
+                                          />
+
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.SnapShotFormatWidth}">
+                            <custom:LabelAndValue.ValueContent>
+                                <TextBox Text="{Binding SnapShotFormatWidth,ValidatesOnExceptions=True}" TextAlignment="Right" Width="60"/>
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+
+
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.SnapShotFormatHeight}">
+                            <custom:LabelAndValue.ValueContent>
+                                <TextBox Text="{Binding SnapShotFormatHeight,ValidatesOnExceptions=True}" TextAlignment="Right" Width="60"/>
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+                    </StackPanel>
+                </Expander>
+                <Expander
+            Header="{x:Static rs:Resources.KeySettingExpander}">
+                    <StackPanel Margin="8">
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.KeyShortCutScreenCap}">
+                            <custom:LabelAndValue.ValueContent>
+                                <TextBox Text="{Binding KeyShortCutScreenCap,ValidatesOnExceptions=True}" Width="200" IsReadOnly="True" >
+                                    <i:Interaction.Triggers >
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding GotFocusKeyInputColumnCommand}" CommandParameter="{x:Static vm:ApplicationSettingViewModel+FocusType.KeyShortCutScreenCap}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding LostsFocusKeyInputColumnCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.KeyShortCutApplicationCap}">
+                            <custom:LabelAndValue.ValueContent>
+                                <TextBox Text="{Binding KeyShortCutApplicationCap,ValidatesOnExceptions=True}" Width="200" IsReadOnly="True">
+                                    <i:Interaction.Triggers >
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding GotFocusKeyInputColumnCommand}" 
+                                                                   CommandParameter="{x:Static vm:ApplicationSettingViewModel+FocusType.KeyShortCutApplicationCap}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding LostsFocusKeyInputColumnCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+                        
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.KeyShortCutG1}">
+                            <custom:LabelAndValue.ValueContent>
+                                <TextBox Text="{Binding KeyShortCutG1,ValidatesOnExceptions=True}" Width="200" IsReadOnly="True">
+                                    <i:Interaction.Triggers >
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding GotFocusKeyInputColumnCommand}" 
+                                                                   CommandParameter="{x:Static vm:ApplicationSettingViewModel+FocusType.KeyShortCutG1}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding LostsFocusKeyInputColumnCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.KeyShortCutG2}">
+                            <custom:LabelAndValue.ValueContent>
+                                <TextBox Text="{Binding KeyShortCutG2,ValidatesOnExceptions=True}" Width="200" IsReadOnly="True">
+                                    <i:Interaction.Triggers >
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding GotFocusKeyInputColumnCommand}" 
+                                                                   CommandParameter="{x:Static vm:ApplicationSettingViewModel+FocusType.KeyShortCutG2}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding LostsFocusKeyInputColumnCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.KeyShortCutG3}">
+                            <custom:LabelAndValue.ValueContent>
+                                <TextBox Text="{Binding KeyShortCutG3,ValidatesOnExceptions=True}" Width="200" IsReadOnly="True">
+                                    <i:Interaction.Triggers >
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding GotFocusKeyInputColumnCommand}" 
+                                                                   CommandParameter="{x:Static vm:ApplicationSettingViewModel+FocusType.KeyShortCutG3}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding LostsFocusKeyInputColumnCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+        <Button 
+            Command="{Binding ApplyCommand}"
+            Grid.Row="1"
+            TextBlock.FontSize="17"
+            Content="{x:Static rs:Resources.ApplyButton}"/>
+
+    </Grid>
+</UserControl>

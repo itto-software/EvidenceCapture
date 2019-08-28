@@ -247,7 +247,7 @@ namespace EvidenceCapture.Model
             {
                 string matchestr = ApplicationSettings.Instance.GroupPattern;
 
-                matchestr = matchestr.Replace("n", "1-9");
+                matchestr = matchestr.Replace("[n]", "[0-9]+");
                 var re = new Regex(matchestr);
                 var fre = new Regex("[0-9]{3}.[png|jpg|bmp]");
 
@@ -286,6 +286,16 @@ namespace EvidenceCapture.Model
                         }
                     }
                 }
+
+
+                var sorted = SnapShotTreeSource.ToList();
+                sorted.Sort();
+                SnapShotTreeSource.Clear();
+
+                sorted.ForEach(x => SnapShotTreeSource.Add(x));
+
+
+
             }
         }
 

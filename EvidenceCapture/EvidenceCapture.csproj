@@ -119,8 +119,11 @@
       <DependentUpon>DisplaySettings.settings</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Base\BaseVM.cs" />
-    <Compile Include="ViewModel\ImageProcessingViewModel.cs" />
-    <Compile Include="ViewModel\OperateControlViewModel.cs" />
+    <Compile Include="ViewModel\Base\IMainContents.cs" />
+    <Compile Include="ViewModel\MainContents\ApplicationSettingViewModel.cs" />
+    <Compile Include="ViewModel\MainContents\ImageProcessingViewModel.cs" />
+    <Compile Include="ViewModel\MainContents\OperateControlViewModel.cs" />
+    <Compile Include="ViewModel\MainContents\LabalAndValue.cs" />
     <Compile Include="ViewModel\Overray\LevelItem.cs" />
     <Compile Include="ViewModel\Overray\MessageDialogViewModel.cs" />
     <Compile Include="ViewModel\Overray\OverrayBase.cs" />
@@ -133,10 +136,16 @@
     <Compile Include="View\Converter\TreeItemConverter.cs" />
     <Compile Include="View\CustomControl\BindableCommandCombobox.cs" />
     <Compile Include="View\CustomControl\BindableSelectedItemTreeView.cs" />
-    <Compile Include="View\ImageProcessingControl.xaml.cs">
+    <Compile Include="View\CustomControl\LabelAndValue.xaml.cs">
+      <DependentUpon>LabelAndValue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainContents\AppliactionSettingControl.xaml.cs">
+      <DependentUpon>AppliactionSettingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainContents\ImageProcessingControl.xaml.cs">
       <DependentUpon>ImageProcessingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\OperateControl.xaml.cs">
+    <Compile Include="View\MainContents\OperateControl.xaml.cs">
       <DependentUpon>OperateControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Overray\MessageDialog.xaml.cs">
@@ -154,7 +163,15 @@
     <Compile Include="View\WaitingCircle.xaml.cs">
       <DependentUpon>WaitingCircle.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\ImageProcessingControl.xaml">
+    <Page Include="View\CustomControl\LabelAndValue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainContents\AppliactionSettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainContents\ImageProcessingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,7 +190,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\OperateControl.xaml">
+    <Page Include="View\MainContents\OperateControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
