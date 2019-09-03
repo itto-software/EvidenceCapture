@@ -79,6 +79,15 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   アプリケーションログフォルダを開く に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ApplogTooltip {
+            get {
+                return ResourceManager.GetString("ApplogTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   適用 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ApplyButton {
@@ -102,6 +111,15 @@ namespace EvidenceCapture.Properties {
         public static string AutoResizeToolTip {
             get {
                 return ResourceManager.GetString("AutoResizeToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   カメラが一つも見当たりません に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CameraNotFound {
+            get {
+                return ResourceManager.GetString("CameraNotFound", resourceCulture);
             }
         }
         
@@ -138,16 +156,6 @@ namespace EvidenceCapture.Properties {
         public static string CreateButton {
             get {
                 return ResourceManager.GetString("CreateButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   予期せぬエラーが発生しました。
-        ///例外エラー={0} に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ErrUnexpected {
-            get {
-                return ResourceManager.GetString("ErrUnexpected", resourceCulture);
             }
         }
         
@@ -224,6 +232,15 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   ハイライト に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HIghlightTooltip {
+            get {
+                return ResourceManager.GetString("HIghlightTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   bmp型式 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ImageFormatBmp {
@@ -260,6 +277,24 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   ウインドウも含める に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string IsWindowCapture {
+            get {
+                return ResourceManager.GetString("IsWindowCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   アクティブウインドウキャプチャ範囲 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string IsWindowCaptureLabel {
+            get {
+                return ResourceManager.GetString("IsWindowCaptureLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   キーショートカット に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string KeySettingExpander {
@@ -274,6 +309,15 @@ namespace EvidenceCapture.Properties {
         public static string KeyShortCutApplicationCap {
             get {
                 return ResourceManager.GetString("KeyShortCutApplicationCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   カメラキャプチャー に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string KeyShortCutCameraCap {
+            get {
+                return ResourceManager.GetString("KeyShortCutCameraCap", resourceCulture);
             }
         }
         
@@ -346,6 +390,15 @@ namespace EvidenceCapture.Properties {
         public static string Location {
             get {
                 return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   マスキング に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MaskTooltip {
+            get {
+                return ResourceManager.GetString("MaskTooltip", resourceCulture);
             }
         }
         
@@ -452,9 +505,28 @@ namespace EvidenceCapture.Properties {
         /// <summary>
         ///   トリミング に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string TrimButton {
+        public static string TrimTooltip {
             get {
-                return ResourceManager.GetString("TrimButton", resourceCulture);
+                return ResourceManager.GetString("TrimTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Webカメラが認識できませんでした。
+        ///カメラのキャプチャは利用できません。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WebCamNotFound {
+            get {
+                return ResourceManager.GetString("WebCamNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Webカメラの設定と確認 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WebCamSettingTooltip {
+            get {
+                return ResourceManager.GetString("WebCamSettingTooltip", resourceCulture);
             }
         }
     }

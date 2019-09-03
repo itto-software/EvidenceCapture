@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EvidenceCapture.Model.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace EvidenceCapture.Model
 {
     /// <summary>IO先を管理するオブジェクト</summary>
-    class ApplicationSettings
+    class ApplicationSettings : ModelBase
     {
         #region Fields
 
@@ -22,6 +23,20 @@ namespace EvidenceCapture.Model
         internal static ApplicationSettings Instance => _instance;
 
 
+
+        public bool IsWindowCapture
+        {
+            get
+            {
+                return Properties.Settings.Default.IsWindowCapture;
+            }
+            set
+            {
+                Properties.Settings.Default.IsWindowCapture = value;
+                Properties.Settings.Default.Save();
+            }
+
+        }
         public int DefaultWidth
         {
             get
@@ -47,6 +62,20 @@ namespace EvidenceCapture.Model
                 Properties.Settings.Default.Save();
             }
         }
+
+        public string DefaultCamDevice
+        {
+            get
+            {
+                return Properties.Settings.Default.DefaultCamDevice;
+            }
+            set
+            {
+                Properties.Settings.Default.DefaultCamDevice = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
 
         public string GroupPattern
         {
@@ -143,6 +172,21 @@ namespace EvidenceCapture.Model
                 Properties.Settings.Default.Save();
             }
         }
+
+        public string KeyShortCutCameraCap
+        {
+            get
+            {
+                return Properties.Settings.Default.KeyShortCutCameraCap;
+            }
+            set
+            {
+                Properties.Settings.Default.KeyShortCutCameraCap = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+
         public string KeyShortCutG1
         {
             get

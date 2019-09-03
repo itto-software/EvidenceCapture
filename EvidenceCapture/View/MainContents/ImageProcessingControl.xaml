@@ -59,7 +59,6 @@
                 </StackPanel>
                 <Button 
                     Grid.Column="1"
-                    Width="150"
                     Height="30"
                     TextBlock.FontSize="17"
                     Content="{x:Static rs:Resources.FixWidth}"
@@ -97,7 +96,7 @@
                         TextBlock.FontSize="17"
                         Content="{x:Static rs:Resources.FixHeight}"
                         Command="{Binding ResizeHeightCommand}"/>
-                
+
                 <StackPanel Margin="0,8,0,0" Orientation="Horizontal" Grid.Row="2">
                     <StackPanel Orientation="Horizontal" Width="350">
                         <Label Content="{x:Static rs:Resources.Location}" TextBlock.FontSize="17"  TextBlock.Foreground="Silver" />
@@ -106,15 +105,38 @@
                         <Label Content="{Binding SizeStr}" TextBlock.FontSize="17"  TextBlock.Foreground="Silver"/>
                     </StackPanel>
                 </StackPanel>
-                <Button 
+                <StackPanel
                     Grid.Row="2"
                     Grid.Column="1"
-                    Height="30"
-                    TextBlock.FontSize="17"
-                    Content="{x:Static rs:Resources.TrimButton}"
-                    Command="{Binding ImageTrimCommand}"/>
+                    Orientation="Horizontal"
+                    Margin="0,4,0,4">
+                    <Button 
+                        Width="40"
+                        TextBlock.FontSize="25"
+                        ToolTip="{x:Static rs:Resources.TrimTooltip}"
+                        TextBlock.FontFamily="Wingdings"
+                        Content="&#x0023;"
+                        Command="{Binding ImageTrimCommand}"/>
+                    <Button 
+                        Margin="8,0,0,0"
+                        Width="40"
+                        TextBlock.FontSize="20"
+                        ToolTip="{x:Static rs:Resources.MaskTooltip}"
+                        TextBlock.FontFamily="Webdings"
+                        Content="&#x0067;"
+                        Command="{Binding ImageMaskCommand}"/>
+                    <Button 
+                        Margin="8,0,0,0"
+                        Width="40"
+                        TextBlock.FontSize="25"
+                        ToolTip="{x:Static rs:Resources.HIghlightTooltip}"
+                        TextBlock.FontFamily="Wingdings"
+                        Content="&#x0070;"
+                        Command="{Binding ImageHighLightCommand}"/>
 
-                
+                </StackPanel>
+
+
             </Grid>
             <Border
                

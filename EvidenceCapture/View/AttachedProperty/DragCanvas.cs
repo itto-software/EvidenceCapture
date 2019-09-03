@@ -169,6 +169,7 @@ namespace EvidenceCapture.View.AttachedProperty
 
         }
 
+
         private static void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
 
@@ -215,72 +216,103 @@ namespace EvidenceCapture.View.AttachedProperty
 
         }
 
+        private static void OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                SetRect(sender as DependencyObject, e);
+            }
+        }
 
         private static void OnMouseMove(object sender, MouseEventArgs e)
         {
-
-            var stateManager = ((sender as DependencyObject).GetValue(StateManageProperty)) as StateManage;
-
-            if (stateManager.IsPressed)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                var end = e.GetPosition((IInputElement)sender);
-                var start = stateManager.GetViewPoint();
+                SetRect(sender as DependencyObject, e);
+            }
+        }
 
-                var width = (end.X > start.X) ? end.X - start.X : 0;
-                var height = (end.Y > start.Y) ? end.Y - start.Y : 0;
-                var size = new Size(width, height);
+        private static void SetRect(DependencyObject dobj, MouseEventArgs e)
+        {
+            var stateManager = (dobj.GetValue(StateManageProperty)) as StateManage;
 
-                stateManager.SetSize(size);
-                SetDragedSize((DependencyObject)sender, stateManager.RealSize);
-
-
-                var canvas = sender as Canvas;
-
-                Rectangle rect = null;
-                Rectangle rectB = null;
-
-                foreach (var uie in canvas.Children)
-                {
-                    if (uie is Rectangle && (uie as Rectangle).Name == selectingName)
-                        rect = uie as Rectangle;
-                    else if (uie is Rectangle && (uie as Rectangle).Name == selectingNameB)
-                        rectB = uie as Rectangle;
-                }
-                if (rect == null)
-                {
-                    ResourceDictionary dic = new ResourceDictionary();
-                    dic.Source = new Uri("/View/Style/CommonStyle.xaml", UriKind.RelativeOrAbsolute);
-                    var style = dic["SelectingArea"] as Style;
-                    var styleB = dic["SelectingAreaBack"] as Style;
+            var start = stateManager.GetFirstViewPoint();
+            var end = e.GetPosition((IInputElement)dobj);
 
 
-                    rect = new Rectangle();
-                    rect.Name = selectingName;
-                    rect.Width = canvas.Width;
-                    rect.Height = canvas.Height;
-                    rect.Style = style;
-                    canvas.Children.Add(rect);
+            var bx = (start.X < end.X) ? start.X : end.X;
+            var by = (start.Y < end.Y) ? start.Y : end.Y;
+            var ex = (start.X > end.X) ? start.X : end.X;
+            var ey = (start.Y > end.Y) ? start.Y : end.Y;
+
+            if (ex > stateManager.MaxWidth)
+                ex = stateManager.MaxWidth;
+            if (ey > stateManager.MaxHeight)
+                ey = stateManager.MaxHeight;
 
 
-                    rectB = new Rectangle();
-                    rectB.Name = selectingNameB;
-                    rectB.Width = canvas.Width;
-                    rectB.Height = canvas.Height;
-                    rectB.Style = styleB;
-                    canvas.Children.Add(rectB);
+            start = new Point(bx, by);
+            end = new Point(ex, ey);
 
-                }
-                rect.Margin = new Thickness(start.X, start.Y, 0, 0);
-                rect.Width = width;
-                rect.Height = height;
-
-                rectB.Margin = new Thickness(start.X, start.Y, 0, 0);
-                rectB.Width = width;
-                rectB.Height = height;
+            stateManager.SetPoint(start);
+            SetDragedPoint(dobj, stateManager.RealPoint);
 
 
+            var width = (end.X > start.X) ? end.X - start.X : 0;
+            var height = (end.Y > start.Y) ? end.Y - start.Y : 0;
+            
+
+            var size = new Size(width, height);
+
+            stateManager.SetSize(size);
+            SetDragedSize(dobj, stateManager.RealSize);
+
+
+            var canvas = dobj as Canvas;
+
+            Rectangle rect = null;
+            Rectangle rectB = null;
+
+            foreach (var uie in canvas.Children)
+            {
+                if (uie is Rectangle && (uie as Rectangle).Name == selectingName)
+                    rect = uie as Rectangle;
+                else if (uie is Rectangle && (uie as Rectangle).Name == selectingNameB)
+                    rectB = uie as Rectangle;
+            }
+            if (rect == null)
+            {
+                ResourceDictionary dic = new ResourceDictionary();
+                dic.Source = new Uri("/View/Style/CommonStyle.xaml", UriKind.RelativeOrAbsolute);
+                var style = dic["SelectingArea"] as Style;
+                var styleB = dic["SelectingAreaBack"] as Style;
+
+
+                rect = new Rectangle();
+                rect.Name = selectingName;
+                rect.Width = canvas.Width;
+                rect.Height = canvas.Height;
+                rect.Style = style;
+                canvas.Children.Add(rect);
+
+
+                rectB = new Rectangle();
+                rectB.Name = selectingNameB;
+                rectB.Width = canvas.Width;
+                rectB.Height = canvas.Height;
+                rectB.Style = styleB;
+                canvas.Children.Add(rectB);
 
             }
+            rect.Margin = new Thickness(start.X, start.Y, 0, 0);
+            rect.Width = width;
+            rect.Height = height;
+
+            rectB.Margin = new Thickness(start.X, start.Y, 0, 0);
+            rectB.Width = width;
+            rectB.Height = height;
+
+
         }
 
         private static void OnMouseUp(object sender, MouseEventArgs e)
@@ -289,7 +321,6 @@ namespace EvidenceCapture.View.AttachedProperty
 
             if (e.LeftButton == MouseButtonState.Released)
             {
-                stateManager.IsPressed = false;
                 ReleaseRect(sender as Canvas);
             }
         }
@@ -298,15 +329,7 @@ namespace EvidenceCapture.View.AttachedProperty
         {
             // todo 
         }
-
-        private static void OnMouseLeave(object sender, MouseEventArgs e)
-        {
-            var stateManager = ((sender as DependencyObject).GetValue(StateManageProperty)) as StateManage;
-
-            stateManager.IsPressed = false;
-            ReleaseRect(sender as Canvas);
-        }
-
+        
 
         private static void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -315,9 +338,8 @@ namespace EvidenceCapture.View.AttachedProperty
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 var point = e.GetPosition((IInputElement)sender);
-                stateManager.SetPoint(point);
+                stateManager.SetPoint(point,true);
 
-                stateManager.IsPressed = true;
                 SetDragedPoint((DependencyObject)sender, stateManager.RealPoint);
 
             }

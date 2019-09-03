@@ -31,9 +31,7 @@
                             <custom:LabelAndValue.ValueContent>
                                 <ComboBox SelectedItem="{Binding SnapShotFormatOutFormat}"
                                           ItemsSource="{Binding ImageFormatComboList}"
-                                          DisplayMemberPath="Label"
-                                          SelectedValue=""
-                                          />
+                                          DisplayMemberPath="Label"/>
 
                             </custom:LabelAndValue.ValueContent>
                         </custom:LabelAndValue>
@@ -50,6 +48,15 @@
                                 <TextBox Text="{Binding SnapShotFormatHeight,ValidatesOnExceptions=True}" TextAlignment="Right" Width="60"/>
                             </custom:LabelAndValue.ValueContent>
                         </custom:LabelAndValue>
+
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.IsWindowCaptureLabel}">
+                            <custom:LabelAndValue.ValueContent>
+                                <CheckBox 
+                                    TextBlock.Foreground="Silver"
+                                    IsChecked="{Binding IsWindowCapture}" Content="{x:Static rs:Resources.IsWindowCapture}"/>
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+
                     </StackPanel>
                 </Expander>
                 <Expander
@@ -84,6 +91,23 @@
                                 </TextBox>
                             </custom:LabelAndValue.ValueContent>
                         </custom:LabelAndValue>
+
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.KeyShortCutCameraCap}">
+                            <custom:LabelAndValue.ValueContent>
+                                <TextBox Text="{Binding KeyShortCutCameraCap,ValidatesOnExceptions=True}" Width="200" IsReadOnly="True">
+                                    <i:Interaction.Triggers >
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding GotFocusKeyInputColumnCommand}" 
+                                                                   CommandParameter="{x:Static vm:ApplicationSettingViewModel+FocusType.KeyShortCutCameraCap}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding LostsFocusKeyInputColumnCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+
                         
                         <custom:LabelAndValue LabelText="{x:Static rs:Resources.KeyShortCutG1}">
                             <custom:LabelAndValue.ValueContent>

@@ -17,7 +17,8 @@ namespace EvidenceCapture.ViewModel
         public enum ContentsType
         {
             OperateControl,
-            AppliactionSettingControl
+            AppliactionSettingControl,
+            WebCamSettingControl
         }
 
 
@@ -51,6 +52,9 @@ namespace EvidenceCapture.ViewModel
 
         /// <summary>メインコンテンツ変更コマンド</summary>
         public ICommand ContentsSwitchCommand { get; private set; }
+
+        /// <summary>アプリケーションログフォルダ確認コマンド</summary>
+        public ICommand LaunchAppLogCommand { get; private set; }
 
         public UserControl MainContents
         {
@@ -150,6 +154,7 @@ namespace EvidenceCapture.ViewModel
 
             ContentsSwitchCommand = new RelayCommand<ContentsType>(ContentsSwitchAction);
 
+            LaunchAppLogCommand = new RelayCommand(LaunchAppLogImpl);
 
             // オーバーレイウインドウレシーバーを登録
             GalaSoft.MvvmLight.Messaging.Messenger.Default.Register(this, (Action<OverrayDialogMessage>)OverrayDialogReceiver);
@@ -162,19 +167,33 @@ namespace EvidenceCapture.ViewModel
             mainContentsCache = new Dictionary<ContentsType, UserControl>();
             mainContentsCache.Add(ContentsType.OperateControl, new View.MainContents.OperateControl());
             mainContentsCache.Add(ContentsType.AppliactionSettingControl, new View.MainContents.AppliactionSettingControl());
+            mainContentsCache.Add(ContentsType.WebCamSettingControl, new View.MainContents.WebCamSettingControl());
 
-            MainContents = mainContentsCache[ContentsType.OperateControl];
+            ContentsSwitchAction(ContentsType.OperateControl);
+
+        }
+
+        private void LaunchAppLogImpl()
+        {
+            CommonUtility.Explorer(NLogHelper.AppLogdir);
         }
 
         private void ContentsSwitchAction(ContentsType param)
         {
-            if (MainContents.DataContext is IMainContents)
+            try
             {
-                var mcd = MainContents.DataContext as IMainContents;
-                mcd.DetachContens();
+                if (MainContents != null && MainContents.DataContext is IMainContents)
+                {
+                    var mcd = MainContents.DataContext as IMainContents;
+                    mcd.DetachContens();
+                }
                 MainContents = mainContentsCache[param];
-                mcd = MainContents.DataContext as IMainContents;
-                mcd.AttacheContens();
+                (MainContents.DataContext as IMainContents).AttacheContens();
+            }
+            catch (Exception e)
+            {
+                logger.Error(e);
+                MessageDialog(e);
             }
         }
 

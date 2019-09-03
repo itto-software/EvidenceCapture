@@ -39,15 +39,15 @@
                     Command="{Binding AddGroupCommand}"
                     TextBlock.FontFamily="Wingdings 2"
                     TextBlock.FontSize="20"
-                    Content="Ì"/>
+                    Content="&#x00CC;"/>
 
             <CheckBox 
                 IsChecked="{Binding CheckedAutoResize}"
                 Margin="0,0,4,0"                
                 ToolTip="{x:Static rs:Resources.AutoResizeToolTip}"
-                TextBlock.FontFamily="Wingdings 2"
+                TextBlock.FontFamily="Webdings"
                 TextBlock.FontSize="20"
-                Content="©"
+                Content="&#x0060;"
                 Width="30"
                 Style="{StaticResource ToggleButton}"/>
         </StackPanel>
@@ -62,6 +62,7 @@
                 BorderThickness="0"
                 Background="Transparent"
                 Width="140"
+                SelectedValuePath="ID"
                 BindableSelectedItem="{Binding SelectedNode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 ItemsSource="{Binding SnapList}">
                 <TreeView.InputBindings>
@@ -79,6 +80,9 @@
                         <TextBlock Text="{Binding Converter={StaticResource TreeConv},UpdateSourceTrigger=PropertyChanged}"/>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}"/>
+                </TreeView.ItemContainerStyle>
             </custom:BindableSelectedItemTreeView>
         </Border>
 
@@ -94,9 +98,9 @@
                 Margin="4,0,2,0"
                 ToolTip="{x:Static rs:Resources.SetFolderToolTip}"
                 Command="{Binding SetOutputPathCommand}"
-                TextBlock.FontFamily="Wingdings"
+                TextBlock.FontFamily="Webdings"
                 TextBlock.FontSize="20"
-                Content="1"/>
+                Content="&#x00D2;"/>
             <TextBox
                     Grid.Column="1"
                     VerticalAlignment="Center"
@@ -109,9 +113,9 @@
                 Margin="4,0,2,0"
                 ToolTip="{x:Static rs:Resources.LaunchReportDialogToolTip}"
                 Command="{Binding LaunchReportDialogCommand}"
-                TextBlock.FontFamily="Wingdings"
+                TextBlock.FontFamily="Webdings"
                 TextBlock.FontSize="20"
-                Content="&lt;"/>
+                Content="&#x00A4;"/>
 
         </Grid>
 

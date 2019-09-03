@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using EvidenceCapture.Model;
+using EvidenceCapture.Properties;
 using EvidenceCapture.ViewModel.Base;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -14,6 +15,14 @@ namespace EvidenceCapture.ViewModel.MainContents
     /// <summary>画像編集パネルのViewModel</summary>
     public class ImageProcessingViewModel : BaseVM
     {
+        enum RetouchType
+        {
+            Trim,
+            Mask,
+            HighLight
+        }
+
+
         #region Fields
 
         private ImageSource _preview;
@@ -35,10 +44,10 @@ namespace EvidenceCapture.ViewModel.MainContents
         #region Properties
 
         public ICommand ResizeWidthCommand { get; private set; }
-
         public ICommand ResizeHeightCommand { get; private set; }
-
         public ICommand ImageTrimCommand { get; private set; }
+        public ICommand ImageMaskCommand { get; private set; }
+        public ICommand ImageHighLightCommand { get; private set; }
 
         public bool ControlEnable
         {
@@ -56,20 +65,28 @@ namespace EvidenceCapture.ViewModel.MainContents
             }
             set
             {
-                if (value != _targetPath)
+                try
                 {
-                    _targetPath = value;
-                    if (File.Exists(_targetPath))
+                    if (value != _targetPath)
                     {
-                        Preview = ImageHelper.GetImageSource(_targetPath);
+                        _targetPath = value;
+                        if (File.Exists(_targetPath))
+                        {
+                            Preview = ImageHelper.GetImageSource(_targetPath);
+                        }
+                        else
+                        {
+                            Preview = null;
+                        }
+                        RefreshSizeInfo(_targetPath);
                     }
-                    else
-                    {
-                        Preview = null;
-                    }
-                    RefreshSizeInfo(_targetPath);
+                    RaisePropertyChanged(nameof(ControlEnable));
                 }
-                RaisePropertyChanged(nameof(ControlEnable));
+                catch (Exception e)
+                {
+                    logger.Error(e);
+                    MessageDialog(e);
+                }
             }
         }
 
@@ -225,7 +242,10 @@ namespace EvidenceCapture.ViewModel.MainContents
         {
             ResizeWidthCommand = new RelayCommand(ResizeWidthImpl, CanResizeWidth);
             ResizeHeightCommand = new RelayCommand(ResizeHeightImpl, CanResizeHeight);
-            ImageTrimCommand = new RelayCommand(ImageTrimImpl, CanImageTrim);
+            ImageTrimCommand = new RelayCommand(() => { ImageRetouchImpl(RetouchType.Trim); }, CanImageRetouch);
+            ImageMaskCommand = new RelayCommand(() => { ImageRetouchImpl(RetouchType.Mask); }, CanImageRetouch);
+            ImageHighLightCommand = new RelayCommand(() => { ImageRetouchImpl(RetouchType.HighLight); }, CanImageRetouch);
+
 
             NewWidth = ApplicationSettings.Instance.DefaultWidth.ToString();
             NewHeight = ApplicationSettings.Instance.DefaultHeight.ToString();
@@ -235,27 +255,54 @@ namespace EvidenceCapture.ViewModel.MainContents
             IsDragble = true;
         }
 
-        private void ImageTrimImpl()
+        private void ImageRetouchImpl(RetouchType type)
         {
             if (File.Exists(TargetPath))
             {
-                var bmp = new Bitmap(TargetPath);
-                var newBmp = ImageHelper.Trim(bmp, DragedPoint, DragedSize);
+                try
+                {
+                    var bmp = new Bitmap(TargetPath);
+                    Bitmap newBmp = null;
+                    switch (type)
+                    {
+                        case RetouchType.Trim:
+                            newBmp = ImageHelper.Trim(bmp, DragedPoint, DragedSize);
+                            break;
+                        case RetouchType.Mask:
+                            newBmp = ImageHelper.Mask(bmp, DragedPoint, DragedSize);
+                            break;
+                        case RetouchType.HighLight:
+                            newBmp = ImageHelper.HighLight(bmp, DragedPoint, DragedSize);
+                            break;
+                    }
 
-                bmp.Dispose();
-                newBmp.Save(TargetPath);
-                newBmp.Dispose();
+                    bmp.Dispose();
+                    newBmp.Save(TargetPath);
+                    newBmp.Dispose();
 
-                Preview = ImageHelper.GetImageSource(TargetPath);
-                RefreshSizeInfo(TargetPath);
+                    Preview = ImageHelper.GetImageSource(TargetPath);
+                    RefreshSizeInfo(TargetPath);
+
+                    logger.Info(LogMessage.ISuccess, $"{nameof(ImageRetouchImpl)} with {type.ToString()} param");
+                }
+                catch (Exception e)
+                {
+                    logger.Debug(LogMessage.DParams, nameof(RetouchType), type.ToString());
+                    logger.Debug(LogMessage.DParams, nameof(TargetPath), TargetPath);
+                    logger.Error(e);
+                    MessageDialog(MessageType.Error, e.Message);
+
+                }
             }
             else
             {
-                // todo : 要エラーハンドリング
+                var msg = string.Format(LogMessage.EFileNotFound, TargetPath);
+                logger.Error(msg);
+                MessageDialog(MessageType.Error, msg);
             }
         }
 
-        private bool CanImageTrim()
+        private bool CanImageRetouch()
         {
             return !DragedSize.IsEmpty && (int)(DragedSize.Width) > 0 && (int)(DragedSize.Height) > 0;
         }
@@ -272,12 +319,28 @@ namespace EvidenceCapture.ViewModel.MainContents
 
         private void ResizeHeightImpl()
         {
-            ImageResize(false);
+            try
+            {
+                ImageResize(false);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e);
+                MessageDialog(MessageType.Error, e.Message);
+            }
         }
 
         private void ResizeWidthImpl()
         {
-            ImageResize(true);
+            try
+            {
+                ImageResize(true);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e);
+                MessageDialog(MessageType.Error, e.Message);
+            }
         }
 
         private void ImageResize(bool isWidth)
@@ -297,7 +360,9 @@ namespace EvidenceCapture.ViewModel.MainContents
             }
             else
             {
-                // todo : 要エラーハンドリング
+                var msg = string.Format(LogMessage.EFileNotFound, TargetPath);
+                logger.Error(msg);
+                throw new FileNotFoundException(msg);
             }
         }
     }

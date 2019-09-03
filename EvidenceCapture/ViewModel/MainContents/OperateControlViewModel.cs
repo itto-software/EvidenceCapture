@@ -19,6 +19,7 @@ namespace EvidenceCapture.ViewModel.MainContents
     /// <summary>操作パネルのViewModel</summary>
     class OperateControlViewModel : BaseVM, IMainContents
     {
+ 
         #region Fields
 
         private KeyboardHook keyHook;
@@ -165,7 +166,7 @@ namespace EvidenceCapture.ViewModel.MainContents
             // コマンドの初期化
             SetOutputPathCommand = new RelayCommand(SetOutputPathImpl);
             RemoveNodeCommand = new RelayCommand(RemoveNodeImpl);
-            AddGroupCommand = new RelayCommand(AddGroupImpl);
+            AddGroupCommand = new RelayCommand<int>(AddGroupImpl);
             LaunchReportDialogCommand = new RelayCommand(LanchReportDialogImpl, CanLaunchReport);
             LaunchRenameDialogCommand = new RelayCommand(LaunchRenameDialogmpl);
 
@@ -187,13 +188,23 @@ namespace EvidenceCapture.ViewModel.MainContents
             }
         }
 
+        /// <summary>リネームGUIでOK後のコールバック</summary>
+        /// <param name="obj"></param>
         private void RenameCallBack(object obj)
         {
-            if (obj is RenameResult)
+            try
             {
-                var result = obj as RenameResult;
-                model.Rename(result.OldNode,
-                    result.NewGroupName);
+                if (obj is RenameResult)
+                {
+                    var result = obj as RenameResult;
+                    model.Rename(result.OldNode,
+                        result.NewGroupName);
+                }
+            }
+            catch(Exception e)
+            {
+                logger.Error(e);
+                MessageDialog(e);
             }
         }
 
@@ -229,24 +240,34 @@ namespace EvidenceCapture.ViewModel.MainContents
             }
         }
 
-        private void AddGroupImpl()
+        private void AddGroupImpl(int level = 0)
         {
-            model.AddLevel();
+            var addnode = model.AddGroupNode(level);
+            if (addnode != null)
+                this.SelectedNode = addnode;
 
-            var latestNode = model.SnapShotTreeSource.ToList().Find(x => x.Name == model.CurrentGroup);
-            if (latestNode != null)
-                this.SelectedNode = latestNode;
+            foreach (var item in SnapList)
+                item.IsExpanded = false;
         }
 
+        /// <summary>ツリーノード削除の実装</summary>
         private void RemoveNodeImpl()
         {
-            if (SelectedNode != null)
+            try
             {
-                model.RemoveTree(SelectedNode);
-                var tmpNode = SelectedNode;
+                if (SelectedNode != null)
+                {
+                    var previewNode = model.RemoveTree(SelectedNode);
+                    // 選択済みノードを前のノードに移動する
+                    if (previewNode != null)
+                        SelectedNode = previewNode;
 
-                SnapList = new ObservableCollection<SnapTreeItem>(SnapList);
-                SelectedNode = tmpNode;
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Error(e);
+                MessageDialog(e);
             }
         }
 
@@ -271,38 +292,68 @@ namespace EvidenceCapture.ViewModel.MainContents
             if (!isKeyBind)
                 return;
 
-            var kc = e.KeyCode;
-            // 長押し防止でキーアップを挟む
-            _before = e.UpDown;
-            if (_before == KeyboardUpDown.Up)
+            try
             {
-                bool isRefresh = true;
-                switch (GetKeyType(e))
+                var kc = e.KeyCode;
+                // 長押し防止でキーアップを挟む
+                _before = e.UpDown;
+                if (_before == KeyboardUpDown.Up)
                 {
-                    case ApplicationSettingViewModel.FocusType.KeyShortCutScreenCap:
-                        model.AddCapture();
-                        break;
-                    case ApplicationSettingViewModel.FocusType.KeyShortCutApplicationCap:
-                        model.AddCapture(false);
-                        break;
-                    case ApplicationSettingViewModel.FocusType.KeyShortCutG1:
-                        model.AddLevel(0);
-                        break;
-                    case ApplicationSettingViewModel.FocusType.KeyShortCutG2:
-                        model.AddLevel(1);
-                        break;
-                    case ApplicationSettingViewModel.FocusType.KeyShortCutG3:
-                        model.AddLevel(2);
-                        break;
-                    default:
-                        isRefresh = false;
-                        break;
+                    bool isRefresh = true;
+
+                    switch (GetKeyType(e))
+                    {
+                        case ApplicationSettingViewModel.FocusType.KeyShortCutScreenCap:
+                            AddPicture(OperateControlModel.CaptureKind.Desktop);
+                            break;
+                        case ApplicationSettingViewModel.FocusType.KeyShortCutApplicationCap:
+                            AddPicture(OperateControlModel.CaptureKind.ActiveWindow);
+                            break;
+                        case ApplicationSettingViewModel.FocusType.KeyShortCutCameraCap:
+                            AddPicture(OperateControlModel.CaptureKind.WebCamera);
+                            break;
+                        case ApplicationSettingViewModel.FocusType.KeyShortCutG1:
+                            AddGroupImpl();
+                            break;
+                        case ApplicationSettingViewModel.FocusType.KeyShortCutG2:
+                            AddGroupImpl(1);
+                            break;
+                        case ApplicationSettingViewModel.FocusType.KeyShortCutG3:
+                            AddGroupImpl(2);
+                            break;
+                        default:
+                            isRefresh = false;
+                            break;
+                    }
+
+                    if (isRefresh)
+                    {
+                        var tmpNode = SelectedNode;
+                        SnapList = new ObservableCollection<SnapTreeItem>(SnapList);
+                        SelectedNode = tmpNode;
+                    }
                 }
+            }
+            catch (Exception exp)
+            {
+                logger.Error(exp);
+                MessageDialog(exp);
+            }
 
-                var tmpNode = SelectedNode;
-                SnapList = new ObservableCollection<SnapTreeItem>(SnapList);
-                SelectedNode = tmpNode;
+        }
 
+        private void AddPicture(OperateControlModel.CaptureKind kind)
+        {
+            try
+            {
+                var newNode = model.AddCapture(kind);
+                if (newNode != null)
+                    SelectedNode = newNode;
+            }
+            catch (Exception e)
+            {
+                logger.Error(e);
+                MessageDialog(MessageType.Error, e.Message);
             }
         }
 
@@ -336,6 +387,7 @@ namespace EvidenceCapture.ViewModel.MainContents
 
             if (EqualKey(ai.KeyShortCutApplicationCap)) return ApplicationSettingViewModel.FocusType.KeyShortCutApplicationCap;
             if (EqualKey(ai.KeyShortCutScreenCap)) return ApplicationSettingViewModel.FocusType.KeyShortCutScreenCap;
+            if (EqualKey(ai.KeyShortCutCameraCap)) return ApplicationSettingViewModel.FocusType.KeyShortCutCameraCap;
             if (EqualKey(ai.KeyShortCutG1)) return ApplicationSettingViewModel.FocusType.KeyShortCutG1;
             if (EqualKey(ai.KeyShortCutG2)) return ApplicationSettingViewModel.FocusType.KeyShortCutG2;
             if (EqualKey(ai.KeyShortCutG3)) return ApplicationSettingViewModel.FocusType.KeyShortCutG3;
@@ -349,6 +401,7 @@ namespace EvidenceCapture.ViewModel.MainContents
         public void DetachContens()
         {
             isKeyBind = false;
+            model.DisposeCamera();
         }
 
         /// <summary>自コンテンツに移動した場合</summary>
@@ -356,9 +409,18 @@ namespace EvidenceCapture.ViewModel.MainContents
         {
             isKeyBind = true;
 
-            ImageProcessingVM.Height = ApplicationSettings.Instance.DefaultHeight.ToString();
-            ImageProcessingVM.Width = ApplicationSettings.Instance.DefaultWidth.ToString();
+            ImageProcessingVM.NewHeight = ApplicationSettings.Instance.DefaultHeight.ToString();
+            ImageProcessingVM.NewWidth = ApplicationSettings.Instance.DefaultWidth.ToString();
 
+            try
+            {
+                model.CreateCamera();
+            }
+            catch(Exception e)
+            {
+                logger.Error(e);
+
+            }
         }
     }
 }

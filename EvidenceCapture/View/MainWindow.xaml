@@ -59,10 +59,24 @@
                     </Button>
                     <Button 
                         Command="{Binding ContentsSwitchCommand}"
+                        CommandParameter="{x:Static vm:MainViewModel+ContentsType.WebCamSettingControl}"
+                        ToolTip="{x:Static rs:Resources.WebCamSettingTooltip}"
+                        Style="{DynamicResource CaptionButtonStyleKey}">
+                        <Label TextBlock.FontFamily="Webdings" TextBlock.Foreground="Silver" Content="&#x0B8;"></Label>
+                    </Button>
+                    <Button 
+                        Command="{Binding ContentsSwitchCommand}"
                         CommandParameter="{x:Static vm:MainViewModel+ContentsType.AppliactionSettingControl}"
                         ToolTip="{x:Static rs:Resources.AppliactionSettingControlTooltip}"
                         Style="{DynamicResource CaptionButtonStyleKey}">
                         <Label TextBlock.FontFamily="Webdings" TextBlock.Foreground="Silver" Content="&#x0040;"></Label>
+                    </Button>
+
+                    <Button 
+                        Command="{Binding LaunchAppLogCommand}"
+                        ToolTip="{x:Static rs:Resources.ApplogTooltip}"
+                        Style="{DynamicResource CaptionButtonStyleKey}">
+                        <Label TextBlock.FontFamily="Wingdings" TextBlock.Foreground="Silver" Content="&#x0034;"></Label>
                     </Button>
 
                 </StackPanel>

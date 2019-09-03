@@ -21,7 +21,7 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="IsUnderReset" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="KeyShortCutScreenCap" Type="System.String" Scope="User">
       <Value Profile="(Default)">Alt + PrintScreen</Value>
@@ -37,6 +37,15 @@
     </Setting>
     <Setting Name="KeyShortCutG3" Type="System.String" Scope="User">
       <Value Profile="(Default)">Alt + D3</Value>
+    </Setting>
+    <Setting Name="IsWindowCapture" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DefaultCamDevice" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="KeyShortCutCameraCap" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alt + C</Value>
     </Setting>
   </Settings>
 </SettingsFile>

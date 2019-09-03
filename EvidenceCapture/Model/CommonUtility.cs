@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EvidenceCapture.Model.Base;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace EvidenceCapture.Model
 {
-    static class CommonUtility
+    static class CommonUtility 
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// stringからEnumを取得する
         /// </summary>

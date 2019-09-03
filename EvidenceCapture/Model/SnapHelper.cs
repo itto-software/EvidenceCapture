@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace EvidenceCapture.Model
 {
     static class SnapHelper
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private const int SRCCOPY = 13369376;
         private const int CAPTUREBLT = 1073741824;
 
@@ -57,7 +60,7 @@ namespace EvidenceCapture.Model
 
 
         [DllImport("dwmapi.dll")]
-        static extern int DwmGetWindowAttribute(IntPtr hwnd, int dwAttribute, out RECT pvAttribute, int cbAttribute);
+        static extern int DwmGetWindowAttribute(IntPtr hwnd, DwmWindowAttribute dwAttribute, out RECT pvAttribute, int cbAttribute);
 
 
         [Flags]
@@ -86,29 +89,55 @@ namespace EvidenceCapture.Model
         {
             //アクティブなウィンドウのデバイスコンテキストを取得
             IntPtr hWnd = GetForegroundWindow();
-            //            IntPtr winDC = GetWindowDC(hWnd);
-            IntPtr winDC = GetDC(hWnd);
-
-            //ウィンドウの大きさを取得
+            IntPtr winDC = IntPtr.Zero;
             RECT winRect = new RECT();
-            //            GetWindowRect(hWnd, ref winRect);
-            GetClientRect(hWnd, ref winRect);
-            //Bitmapの作成
-            Bitmap bmp = new Bitmap(winRect.right - winRect.left,
-                winRect.bottom - winRect.top);
-            //Graphicsの作成
-            Graphics g = Graphics.FromImage(bmp);
-            //Graphicsのデバイスコンテキストを取得
-            IntPtr hDC = g.GetHdc();
-            //Bitmapに画像をコピーする
-                        BitBlt(hDC, 0, 0, bmp.Width, bmp.Height,
-                            winDC, 0, 0, SRCCOPY);
 
-/*
-            IntPtr disDC = GetDC(IntPtr.Zero);
-            BitBlt(hDC, 0, 0, bmp.Width, bmp.Height,
-                disDC, winRect.left, winRect.top, SRCCOPY);
-                */
+            var offsetX = 0;
+            var offsetY = 0;
+            Bitmap bmp = null;
+
+            // アプリケーションからエアロフレームを考慮したサイズを取得
+            if (ApplicationSettings.Instance.IsWindowCapture)
+            {
+                DwmGetWindowAttribute(
+                    hWnd,
+                    DwmWindowAttribute.DWMWA_EXTENDED_FRAME_BOUNDS,
+                    out var bounds,
+                    Marshal.SizeOf(typeof(RECT)));
+                GetWindowRect(hWnd, ref winRect);
+                offsetX = bounds.left;
+                offsetY = bounds.top;
+                bmp = new Bitmap(bounds.right - bounds.left,
+                bounds.bottom - bounds.top);
+            }
+            else
+            {
+                // アプリケーションのクライアント領域を取得
+                GetClientRect(hWnd, ref winRect);
+                bmp = new Bitmap(winRect.right - winRect.left,
+                    winRect.bottom - winRect.top);
+
+            }
+
+            Graphics g = Graphics.FromImage(bmp);
+            IntPtr hDC = g.GetHdc();
+
+            if (ApplicationSettings.Instance.IsWindowCapture)
+            {
+                // デスクトップ全体から、エアロフレーム領域分をコピー
+                winDC = GetWindowDC(hWnd);
+                IntPtr disDC = GetDC(IntPtr.Zero);
+                BitBlt(hDC, 0, 0, bmp.Width, bmp.Height,
+                    disDC, offsetX, offsetY, SRCCOPY);
+            }
+            else
+            {
+                // クライアント領域をコピー
+                winDC = GetDC(hWnd);
+                BitBlt(hDC, 0, 0, bmp.Width, bmp.Height,
+                    winDC, 0, 0, SRCCOPY);
+
+            }
             //解放
             g.ReleaseHdc(hDC);
             g.Dispose();

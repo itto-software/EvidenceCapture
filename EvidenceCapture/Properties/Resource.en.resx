@@ -118,34 +118,41 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddGroupToolTip" xml:space="preserve">
-    <value>グループの追加</value>
+    <value>Add group</value>
   </data>
   <data name="AppliactionSettingControlTooltip" xml:space="preserve">
-    <value>アプリケーション設定</value>
+    <value>Application Setting</value>
+  </data>
+  <data name="ApplyButton" xml:space="preserve">
+    <value>Apply</value>
   </data>
   <data name="AppTitle" xml:space="preserve">
     <value>EvidenceCapture</value>
   </data>
   <data name="AutoResizeToolTip" xml:space="preserve">
-    <value>自動リサイズを有効にする</value>
+    <value>Enable to auto resize</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
-    <value>キャンセル</value>
+    <value>Cancel</value>
   </data>
   <data name="ChangeButton" xml:space="preserve">
-    <value>変更</value>
+    <value>Modify</value>
   </data>
   <data name="CloseButton" xml:space="preserve">
-    <value>閉じる</value>
+    <value>Close</value>
   </data>
   <data name="CreateButton" xml:space="preserve">
-    <value>作成</value>
+    <value>Create</value>
+  </data>
+  <data name="ErrUnexpected" xml:space="preserve">
+    <value>Happend the unexpected error.
+detail = {0}</value>
   </data>
   <data name="FixHeight" xml:space="preserve">
-    <value>高さ変更</value>
+    <value>Height modigy</value>
   </data>
   <data name="FixWidth" xml:space="preserve">
-    <value>幅変更</value>
+    <value>Width modigy</value>
   </data>
   <data name="FormatExcel" xml:space="preserve">
     <value>Excel</value>
@@ -157,16 +164,52 @@
     <value>PDF</value>
   </data>
   <data name="GroupRenameCaption" xml:space="preserve">
-    <value>変更後のグループを指定してください</value>
+    <value>Please specify a number for new group.</value>
   </data>
   <data name="GroupRenameOption" xml:space="preserve">
-    <value>下位グループをリセットする</value>
+    <value>reset the under group</value>
   </data>
   <data name="GroupRenameTitle" xml:space="preserve">
-    <value>グループ名の変更</value>
+    <value>Change the group name</value>
+  </data>
+  <data name="ImageFormatBmp" xml:space="preserve">
+    <value>bmp format</value>
+  </data>
+  <data name="ImageFormatJpg" xml:space="preserve">
+    <value>jpeg format</value>
+  </data>
+  <data name="ImageFormatPng" xml:space="preserve">
+    <value>png format</value>
+  </data>
+  <data name="ImageSettingExpander" xml:space="preserve">
+    <value>Snap shot format</value>
+  </data>
+  <data name="IsWindowCapture" xml:space="preserve">
+    <value>Contain the window layer</value>
+  </data>
+  <data name="IsWindowCaptureLabel" xml:space="preserve">
+    <value>Capture range the active window</value>
+  </data>
+  <data name="KeySettingExpander" xml:space="preserve">
+    <value>Key shortcut</value>
+  </data>
+  <data name="KeyShortCutApplicationCap" xml:space="preserve">
+    <value>Capture for the active window</value>
+  </data>
+  <data name="KeyShortCutG1" xml:space="preserve">
+    <value>Add group of level 1</value>
+  </data>
+  <data name="KeyShortCutG2" xml:space="preserve">
+    <value>Add group of level 2</value>
+  </data>
+  <data name="KeyShortCutG3" xml:space="preserve">
+    <value>Add group of level 3</value>
+  </data>
+  <data name="KeyShortCutScreenCap" xml:space="preserve">
+    <value>Capture for the screen</value>
   </data>
   <data name="LaunchDirButton" xml:space="preserve">
-    <value>フォルダを開く</value>
+    <value>Open to a folder</value>
   </data>
   <data name="LaunchFileButton" xml:space="preserve">
     <value>ファイルを起動する</value>
@@ -202,42 +245,6 @@
   <data name="Size" xml:space="preserve">
     <value>サイズ</value>
   </data>
-  <data name="TrimTooltip" xml:space="preserve">
-    <value>トリミング</value>
-  </data>
-  <data name="ApplyButton" xml:space="preserve">
-    <value>適用</value>
-  </data>
-  <data name="ImageFormatBmp" xml:space="preserve">
-    <value>bmp型式</value>
-  </data>
-  <data name="ImageFormatJpg" xml:space="preserve">
-    <value>jpeg型式</value>
-  </data>
-  <data name="ImageFormatPng" xml:space="preserve">
-    <value>png型式</value>
-  </data>
-  <data name="ImageSettingExpander" xml:space="preserve">
-    <value>スナップショット書式</value>
-  </data>
-  <data name="KeySettingExpander" xml:space="preserve">
-    <value>キーショートカット</value>
-  </data>
-  <data name="KeyShortCutApplicationCap" xml:space="preserve">
-    <value>アクティブウインドウキャプチャー</value>
-  </data>
-  <data name="KeyShortCutG1" xml:space="preserve">
-    <value>グループ追加(レベル1)</value>
-  </data>
-  <data name="KeyShortCutG2" xml:space="preserve">
-    <value>グループ追加(レベル2)</value>
-  </data>
-  <data name="KeyShortCutG3" xml:space="preserve">
-    <value>グループ追加(レベル3)</value>
-  </data>
-  <data name="KeyShortCutScreenCap" xml:space="preserve">
-    <value>スクリーンキャプチャー</value>
-  </data>
   <data name="SnapShotFormatHeight" xml:space="preserve">
     <value>リサイズのデフォルト(高さ)</value>
   </data>
@@ -247,17 +254,14 @@
   <data name="SnapShotFormatWidth" xml:space="preserve">
     <value>リサイズのデフォルト(幅)</value>
   </data>
-  <data name="IsWindowCapture" xml:space="preserve">
-    <value>ウインドウも含める</value>
-  </data>
-  <data name="IsWindowCaptureLabel" xml:space="preserve">
-    <value>アクティブウインドウキャプチャ範囲</value>
-  </data>
   <data name="HIghlightTooltip" xml:space="preserve">
     <value>ハイライト</value>
   </data>
   <data name="MaskTooltip" xml:space="preserve">
     <value>マスキング</value>
+  </data>
+  <data name="TrimTooltip" xml:space="preserve">
+    <value>トリミング</value>
   </data>
   <data name="ApplogTooltip" xml:space="preserve">
     <value>アプリケーションログフォルダを開く</value>

@@ -20,6 +20,7 @@ namespace EvidenceCapture.ViewModel.MainContents
         {
             KeyShortCutScreenCap,
             KeyShortCutApplicationCap,
+            KeyShortCutCameraCap,
             KeyShortCutG1,
             KeyShortCutG2,
             KeyShortCutG3,
@@ -50,8 +51,9 @@ namespace EvidenceCapture.ViewModel.MainContents
         private bool isKeyBind;
 
         private KeyboardHook keyHook;
-        private KeyboardUpDown _before;
         private FocusType _selcKyCol;
+        private bool _isWindowCapture;
+        private string _keyShortCutCameraCap;
 
         #endregion
 
@@ -136,6 +138,20 @@ namespace EvidenceCapture.ViewModel.MainContents
             }
         }
 
+
+        public bool IsWindowCapture
+        {
+            get
+            {
+                return _isWindowCapture;
+            }
+            set
+            {
+                _isWindowCapture = value;
+                RaisePropertyChanged(nameof(IsWindowCapture));
+            }
+        }
+
         public string KeyShortCutScreenCap
         {
             get
@@ -173,6 +189,25 @@ namespace EvidenceCapture.ViewModel.MainContents
 
                 _keyShortCutApplicationCap = value;
                 RaisePropertyChanged(nameof(KeyShortCutApplicationCap));
+            }
+        }
+
+        public string KeyShortCutCameraCap
+        {
+            get
+            {
+                return _keyShortCutCameraCap;
+            }
+            set
+            {
+                var key = nameof(KeyShortCutCameraCap);
+                if (!_validateState.ContainsKey(key))
+                    _validateState.Add(key, false);
+
+                _validateState[key] = HasSameValue(value, nameof(KeyShortCutCameraCap));
+
+                _keyShortCutCameraCap = value;
+                RaisePropertyChanged(nameof(KeyShortCutCameraCap));
             }
         }
 
@@ -246,6 +281,8 @@ namespace EvidenceCapture.ViewModel.MainContents
                 return false;
             if (nameof(KeyShortCutScreenCap) != propname && KeyShortCutScreenCap == value)
                 return false;
+            if (nameof(KeyShortCutCameraCap) != propname && KeyShortCutCameraCap == value)
+                return false;
             if (nameof(KeyShortCutG1) != propname && KeyShortCutG1 == value)
                 return false;
             if (nameof(KeyShortCutG2) != propname && KeyShortCutG2 == value)
@@ -284,12 +321,15 @@ namespace EvidenceCapture.ViewModel.MainContents
             ai.ImageFormat = SnapShotFormatOutFormat.Value.ToString();
             ai.KeyShortCutApplicationCap = KeyShortCutApplicationCap;
             ai.KeyShortCutScreenCap = KeyShortCutScreenCap;
+            ai.KeyShortCutCameraCap = KeyShortCutCameraCap;
+
             ai.KeyShortCutG1 = KeyShortCutG1;
             ai.KeyShortCutG2 = KeyShortCutG2;
             ai.KeyShortCutG3 = KeyShortCutG3;
             ai.KeyShortCutG3 = KeyShortCutG3;
+            ai.IsWindowCapture = IsWindowCapture;
 
-
+            logger.Info(LogMessage.ISuccess, nameof(ApplyAction));
         }
 
         private bool CanApply()
@@ -330,6 +370,9 @@ namespace EvidenceCapture.ViewModel.MainContents
                     case FocusType.KeyShortCutScreenCap:
                         KeyShortCutScreenCap = keyStr;
                         break;
+                    case FocusType.KeyShortCutCameraCap:
+                        KeyShortCutCameraCap = keyStr;
+                        break;
                     case FocusType.KeyShortCutG1:
                         KeyShortCutG1 = keyStr;
                         break;
@@ -356,9 +399,12 @@ namespace EvidenceCapture.ViewModel.MainContents
             SnapShotFormatWidth = ai.DefaultWidth.ToString();
             KeyShortCutScreenCap = ai.KeyShortCutScreenCap;
             KeyShortCutApplicationCap = ai.KeyShortCutApplicationCap;
+            KeyShortCutCameraCap = ai.KeyShortCutCameraCap;
+
             KeyShortCutG1 = ai.KeyShortCutG1;
             KeyShortCutG2 = ai.KeyShortCutG2;
             KeyShortCutG3 = ai.KeyShortCutG3;
+            IsWindowCapture = ai.IsWindowCapture;
 
             var imageFormat = CommonUtility.GetEnum<ImageFormatType>(ApplicationSettings.Instance.ImageFormat);
 

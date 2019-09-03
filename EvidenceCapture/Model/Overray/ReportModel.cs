@@ -8,13 +8,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using EvidenceCapture.Model.Base;
 using EvidenceCapture.Model.ProcessResult;
+using EvidenceCapture.Properties;
 using EvidenceCapture.ViewModel.Overray;
 using Microsoft.Office.Interop.Excel;
 
 namespace EvidenceCapture.Model.Overray
 {
-    class ReportModel
+    class ReportModel : ModelBase
     {
         public ReportViewModel.FormatType SelectFormat { get; internal set; }
         public List<SnapTreeItem> TargetList { get; internal set; }
@@ -41,12 +43,13 @@ namespace EvidenceCapture.Model.Overray
                         case ReportViewModel.FormatType.HTML:
                             outResult = HTMLOut();
                             break;
-
                     }
                 }
                 catch (Exception e)
                 {
                     exp = e;
+                    logger.Debug(LogMessage.DParams, nameof(SelectFormat), SelectFormat.ToString());
+                    logger.Error(e);
                     return false;
                 }
 
@@ -76,6 +79,8 @@ namespace EvidenceCapture.Model.Overray
             {
                 writer.WriteLine(html);
             }
+            logger.Info(LogMessage.ISuccess, nameof(HTMLOut));
+
             return rtn;
         }
 
@@ -131,6 +136,7 @@ namespace EvidenceCapture.Model.Overray
                 }
 
             }
+            logger.Info(LogMessage.ISuccess, nameof(PDFOut));
 
             return rtn;
 
@@ -230,6 +236,9 @@ namespace EvidenceCapture.Model.Overray
                     Marshal.ReleaseComObject(shape);
 
             }
+
+            logger.Info(LogMessage.ISuccess, nameof(ExcelOut));
+
             return rtn;
         }
     }

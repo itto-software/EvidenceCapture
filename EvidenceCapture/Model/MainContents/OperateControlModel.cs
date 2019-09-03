@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EvidenceCapture.Model.Base;
+using EvidenceCapture.Properties;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
@@ -12,11 +14,20 @@ using System.Windows.Forms;
 
 namespace EvidenceCapture.Model
 {
-    class OperateControlModel
+    class OperateControlModel : ModelBase
     {
+        internal enum CaptureKind
+        {
+            Desktop,
+            ActiveWindow,
+            WebCamera
+        }
+
+
         #region Fields
 
         private List<int> levels = new List<int>();
+        private WebCamManager webcam;
 
         #endregion
 
@@ -59,10 +70,25 @@ namespace EvidenceCapture.Model
         }
 
 
-        internal void AddCapture(bool isDisplay = true)
+        internal SnapTreeItem AddCapture(OperateControlModel.CaptureKind kind)
         {
-            var bmp = (isDisplay) ? SnapHelper.GetDisplayCapture() :
-                SnapHelper.GetAppCapture();
+            SnapTreeItem newNode = null;
+
+            Bitmap bmp = null;
+            switch (kind)
+            {
+                case CaptureKind.ActiveWindow:
+                    bmp = SnapHelper.GetAppCapture();
+                    break;
+                case CaptureKind.Desktop:
+                    bmp = SnapHelper.GetDisplayCapture();
+                    break;
+                case CaptureKind.WebCamera:
+                    bmp = GetCameraCapture();
+                    break;
+            }
+
+
 
             var outDir = Path.Combine(
                 ApplicationSettings.Instance.OutputDir, CurrentGroup);
@@ -95,15 +121,17 @@ namespace EvidenceCapture.Model
             var newName = string.Format("{0:D3}.{1}", lastNo, ApplicationSettings.Instance.ImageFormat);
 
             parentNode.IsExpanded = true;
-            parentNode.Children.Add(
+
+            newNode =
                 new SnapTreeItem()
                 {
                     NodeFileType = SnapTreeItem.FileType.File,
                     Name = newName,
                     IsExpanded = false,
                     Parent = parentNode
-                });
+                };
 
+            parentNode.Children.Add(newNode);
 
             var outputpath = Path.Combine(outDir,
                 newName);
@@ -117,25 +145,59 @@ namespace EvidenceCapture.Model
             bmp.Save(outputpath);
             bmp.Dispose();
 
+            logger.Info(LogMessage.ISuccess, nameof(AddCapture));
+
+            return newNode;
         }
 
-        internal void RemoveTree(SnapTreeItem selectedNode)
+        private Bitmap GetCameraCapture()
         {
+            if (webcam != null && webcam.IsRunning)
+                return webcam.GetCapture();
+
+            throw new Exception(LogMessage.ECameraNotFound);
+
+        }
+
+        /// <summary>指定したノードを一覧から削除する</summary>
+        /// <param name="selectedNode">対象ノード</param>
+        /// <returns>削除対象の前、または親ノード</returns>
+        internal SnapTreeItem RemoveTree(SnapTreeItem selectedNode)
+        {
+            SnapTreeItem nextNode = null;
             if (selectedNode.NodeFileType == SnapTreeItem.FileType.File)
             {
+                var pnode = selectedNode.Parent;
+                int findex = pnode.Children.IndexOf(selectedNode) - 1;
+
                 var removeTarget = Path.Combine(OutputRoot, selectedNode.Parent.Name, selectedNode.Name);
                 selectedNode.Parent.Children.Remove(selectedNode);
                 if (File.Exists(removeTarget))
                     File.Delete(removeTarget);
+
+                // 移動先ノード取得
+                if (findex >= 0)
+                    nextNode = pnode.Children[findex];
+                else
+                    nextNode = pnode;
+
             }
             else
             {
+                int pindex = SnapShotTreeSource.IndexOf(selectedNode) - 1;
+
                 var removeTarget = Path.Combine(OutputRoot, selectedNode.Name);
                 SnapShotTreeSource.Remove(selectedNode);
                 if (Directory.Exists(removeTarget))
                     Directory.Delete(removeTarget, true);
                 UpdateLatestLevel();
+
+                // 移動先ノード取得
+                if (pindex >= 0)
+                    nextNode = SnapShotTreeSource[pindex];
+
             }
+            return nextNode;
         }
 
         private void UpdateLatestLevel()
@@ -152,7 +214,6 @@ namespace EvidenceCapture.Model
                 foreach (var m in matche)
                 {
                     int newV = int.Parse(m.ToString());
-
                     levels.Add(newV);
                 }
                 levels.Reverse();
@@ -192,9 +253,19 @@ namespace EvidenceCapture.Model
         }
 
 
-        internal void AddLevel(int level = 0)
+        /// <summary>ツリーにグループノードを追加する</summary>
+        /// <param name="level">対象レベル（0から）</param>
+        /// <returns>追加グループのノード</returns>
+        internal SnapTreeItem AddGroupNode(int level = 0)
         {
             levels = CommonUtility.GetLevelsByStr(CurrentGroup);
+
+            if (level > 0)
+            {
+                // 下位レベルをリセット
+                foreach (int index in Enumerable.Range(0, level))
+                    levels[index] = 1;
+            }
 
             while (true)
             {
@@ -203,20 +274,24 @@ namespace EvidenceCapture.Model
                 if (SnapShotTreeSource.ToList().Count(x => x.Name == CurrentGroup) == 0)
                     break;
 
-            }
 
-            SnapShotTreeSource.Add(new SnapTreeItem()
+            }
+            var newItem = new SnapTreeItem()
             {
                 NodeFileType = SnapTreeItem.FileType.Folder,
                 Name = CurrentGroup,
                 IsExpanded = true,
                 Children = new ObservableCollection<SnapTreeItem>()
-            });
+            };
+
+            SnapShotTreeSource.Add(newItem);
 
             var sorted = SnapShotTreeSource.ToList();
             sorted.Sort();
             SnapShotTreeSource.Clear();
             sorted.ForEach(x => SnapShotTreeSource.Add(x));
+
+            return newItem;
 
         }
 
@@ -299,5 +374,33 @@ namespace EvidenceCapture.Model
             }
         }
 
+        internal void CreateCamera()
+        {
+            webcam = new WebCamManager();
+
+            var targetDevice = ApplicationSettings.Instance.DefaultCamDevice;
+            var dcs = webcam.GetDevices();
+            var deviceName = dcs.ToList().Find(x => x == targetDevice);
+            if (deviceName != null)
+            {
+                webcam.SetDevice(deviceName);
+                webcam.Start();
+                
+            }
+            else
+            {
+                throw new Exception(LogMessage.ECameraNotFound);
+            }
+
+        }
+
+        internal void DisposeCamera()
+        {
+            if (webcam != null)
+            {
+                webcam.Dispose();
+            }
+
+        }
     }
 }

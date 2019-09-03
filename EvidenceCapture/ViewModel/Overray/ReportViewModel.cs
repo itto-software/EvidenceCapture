@@ -24,8 +24,6 @@ namespace EvidenceCapture.ViewModel.Overray
             HTML
         }
 
-
-
         public List<SnapTreeItem> TargetList
         {
             get
@@ -77,11 +75,7 @@ namespace EvidenceCapture.ViewModel.Overray
 
         private void failedCallBack(Exception e)
         {
-
-
-            MessageDialog(MessageType.Error,
-                string.Format(Resources.ErrUnexpected,
-                    e.Message));
+            MessageDialog(e);
         }
 
         private void CompleteCallBack(object result)

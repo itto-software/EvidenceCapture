@@ -37,22 +37,28 @@ namespace EvidenceCapture.View
 
             this.WindowState = WindowState.Maximized;
             vm = this.DataContext as MainViewModel;
-            this.Closing += _OnClosing;
+            this.Closing += OnClosing;
 
-            if (Properties.DisplaySettings.Default.DefaultDisplayIsNormal)
+            var ds = Properties.DisplaySettings.Default;
+
+            if (ds.DefaultDisplayIsNormal)
             {
                 this.WindowState = WindowState.Normal;
-                this.normOrMax.Content = "1";
-
+                this.normOrMax.Content = 1;
             }
             else
             {
                 this.WindowState = WindowState.Maximized;
-                this.normOrMax.Content = "2";
-
+                this.normOrMax.Content = 2;
             }
 
+            this.Width = ds.DefaultDisplayWidth;
+            this.Height = ds.DefaultDisplayHeight;
+            this.Left = ds.DefaultDisplayX;
+            this.Top = ds.DefaultDisplayY;
+
         }
+
 
         private void WindowOperateReceiver(WindowOperateMessage womsg)
         {
@@ -67,34 +73,56 @@ namespace EvidenceCapture.View
                     break;
                 case WindowOperateMessage.OperateEnum.ToNormal:
                     this.WindowState = WindowState.Normal;
-                    this.normOrMax.Content = "1";
                     break;
                 case WindowOperateMessage.OperateEnum.ToMaximam:
                     this.WindowState = WindowState.Maximized;
                     break;
                 case WindowOperateMessage.OperateEnum.ToNormalOrMaximam:
                     if (this.WindowState == WindowState.Maximized)
-                    {
                         this.WindowState = WindowState.Normal;
-                        this.normOrMax.Content = "1";
-
-                    }
                     else
-                    {
                         this.WindowState = WindowState.Maximized;
-                        this.normOrMax.Content = "2";
 
-                    }
                     break;
             }
         }
 
-        private void _OnClosing(object sender, CancelEventArgs e)
+        private void OnClosing(object sender, CancelEventArgs e)
         {
             Properties.DisplaySettings.Default.DefaultDisplayIsNormal
                 = this.WindowState == WindowState.Normal;
 
             Properties.DisplaySettings.Default.Save();
         }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            // ウインドウステータスに応じてタイトルのアイコンを変更する
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.normOrMax.Content = 2;
+            }
+            else
+            {
+                this.normOrMax.Content = 1;
+            }
+            base.OnStateChanged(e);
+        }
+
+
+        protected override void OnLocationChanged(EventArgs e)
+        {
+            Properties.DisplaySettings.Default.DefaultDisplayX = (this.Left > 0) ? this.Left : 0;
+            Properties.DisplaySettings.Default.DefaultDisplayY = (this.Top > 0) ? this.Top : 0;
+            base.OnLocationChanged(e);
+        }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            Properties.DisplaySettings.Default.DefaultDisplayWidth = this.Width;
+            Properties.DisplaySettings.Default.DefaultDisplayHeight = this.Height;
+            base.OnRenderSizeChanged(sizeInfo);
+        }
+
     }
 }

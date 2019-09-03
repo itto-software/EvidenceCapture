@@ -17,7 +17,22 @@ Need to the component install, It is as follows :
 After installed then run the "EvidenceCapture.exe" application.
 
 
-## Settings
+## Key shortcut
+
+
+|Situation|Key|Description|
+|---|---|---|
+|Always|PrintScreen\[^1]|Screen capture of the desctop|
+|Always|Alt + PrintScreen \[^1]|Screen capture of an active window|
+|Always|Alt + C\[^1]|Screen capture on the connected web camera|
+|Always|Alt + 1\[^1]|Add level1 group to left pane|
+|Always|Alt + 2\[^1]|Add level2 group to left pane|
+|Always|Alt + 3\[^1]|Add level3 group to left pane|
+|focus to node|Delete|Delete focused node|
+|focus to group node|F2|Rename focused node|
+
+
+\[^1]:Can customize from a setting window.
 
 
 ## License

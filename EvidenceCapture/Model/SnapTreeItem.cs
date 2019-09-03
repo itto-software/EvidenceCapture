@@ -9,6 +9,7 @@ namespace EvidenceCapture.Model
 {
     public class SnapTreeItem : GalaSoft.MvvmLight.ViewModelBase, IComparable
     {
+
         public enum FileType
         {
             File,
@@ -46,8 +47,24 @@ namespace EvidenceCapture.Model
             {
                 _name = value;
                 RaisePropertyChanged(nameof(Name));
+                RaisePropertyChanged(nameof(ID));
+
             }
         }
+
+        public string ID
+        {
+            get
+            {
+                if(this.Parent != null)
+                {
+                    return $"{this.Parent.ID}/{this.Name}";
+                }
+                return this.Name;
+            }
+        }
+
+
         public ObservableCollection<SnapTreeItem> Children
         {
             get

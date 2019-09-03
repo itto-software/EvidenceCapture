@@ -26,9 +26,9 @@ namespace EvidenceCapture.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("640")]
-        public int DefaultDisplayWidth {
+        public double DefaultDisplayWidth {
             get {
-                return ((int)(this["DefaultDisplayWidth"]));
+                return ((double)(this["DefaultDisplayWidth"]));
             }
             set {
                 this["DefaultDisplayWidth"] = value;
@@ -38,9 +38,9 @@ namespace EvidenceCapture.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("480")]
-        public int DefaultDisplayHeight {
+        public double DefaultDisplayHeight {
             get {
-                return ((int)(this["DefaultDisplayHeight"]));
+                return ((double)(this["DefaultDisplayHeight"]));
             }
             set {
                 this["DefaultDisplayHeight"] = value;
@@ -56,6 +56,30 @@ namespace EvidenceCapture.Properties {
             }
             set {
                 this["DefaultDisplayIsNormal"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double DefaultDisplayX {
+            get {
+                return ((double)(this["DefaultDisplayX"]));
+            }
+            set {
+                this["DefaultDisplayX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double DefaultDisplayY {
+            get {
+                return ((double)(this["DefaultDisplayY"]));
+            }
+            set {
+                this["DefaultDisplayY"] = value;
             }
         }
     }

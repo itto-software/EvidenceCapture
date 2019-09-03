@@ -54,6 +54,15 @@
     <ApplicationIcon>camera.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net45\CommonServiceLocator.dll</HintPath>
     </Reference>
@@ -72,6 +81,9 @@
     <Reference Include="HtmlRenderer.PdfSharp, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlRenderer.PdfSharp.1.5.1-beta1\lib\net45\HtmlRenderer.PdfSharp.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.7\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="PdfSharp, Version=1.50.4000.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>..\packages\PDFsharp.1.50.4000-beta3b\lib\net20\PdfSharp.dll</HintPath>
     </Reference>
@@ -79,8 +91,13 @@
       <HintPath>..\packages\PDFsharp.1.50.4000-beta3b\lib\net20\PdfSharp.Charting.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -102,21 +119,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommonConstants.cs" />
     <Compile Include="Model\ApplicationSettings.cs" />
     <Compile Include="Model\CommonUtility.cs" />
     <Compile Include="Model\ImageHelper.cs" />
     <Compile Include="Model\KeyboardHook.cs" />
     <Compile Include="Model\Message\OverrayDialogMessage.cs" />
-    <Compile Include="Model\OperateControlModel.cs" />
+    <Compile Include="Model\Base\ModelBase.cs" />
+    <Compile Include="Model\NLogHelper.cs" />
+    <Compile Include="Model\MainContents\OperateControlModel.cs" />
     <Compile Include="Model\Overray\ReportModel.cs" />
     <Compile Include="Model\ProcessResult\RenameResult.cs" />
     <Compile Include="Model\ProcessResult\ReportOut.cs" />
     <Compile Include="Model\SnapHelper.cs" />
     <Compile Include="Model\SnapTreeItem.cs" />
+    <Compile Include="Model\WebCamManager.cs" />
     <Compile Include="Properties\DisplaySettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>DisplaySettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\LogMessage.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogMessage.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Base\BaseVM.cs" />
     <Compile Include="ViewModel\Base\IMainContents.cs" />
@@ -124,6 +150,7 @@
     <Compile Include="ViewModel\MainContents\ImageProcessingViewModel.cs" />
     <Compile Include="ViewModel\MainContents\OperateControlViewModel.cs" />
     <Compile Include="ViewModel\MainContents\LabalAndValue.cs" />
+    <Compile Include="ViewModel\MainContents\WebCamSettingViewModel.cs" />
     <Compile Include="ViewModel\Overray\LevelItem.cs" />
     <Compile Include="ViewModel\Overray\MessageDialogViewModel.cs" />
     <Compile Include="ViewModel\Overray\OverrayBase.cs" />
@@ -147,6 +174,9 @@
     </Compile>
     <Compile Include="View\MainContents\OperateControl.xaml.cs">
       <DependentUpon>OperateControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainContents\WebCamSettingControl.xaml.cs">
+      <DependentUpon>WebCamSettingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Overray\MessageDialog.xaml.cs">
       <DependentUpon>MessageDialog.xaml</DependentUpon>
@@ -172,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainContents\ImageProcessingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainContents\WebCamSettingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -241,6 +275,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\LogMessage.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LogMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resource.en.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -1,6 +1,7 @@
 ﻿using EvidenceCapture.Model.Message;
 using EvidenceCapture.View.Overray;
 using EvidenceCapture.ViewModel.Overray;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,18 @@ namespace EvidenceCapture.ViewModel.Base
 {
     public class BaseVM : GalaSoft.MvvmLight.ViewModelBase
     {
+        protected static Logger logger = LogManager.GetCurrentClassLogger();
+
         public enum MessageType
         {
             Info,
             Error,
             Warn
+        }
+
+        protected void MessageDialog(Exception e)
+        {
+            MessageDialog(MessageType.Error, e.Message);
         }
 
         protected void MessageDialog(MessageType type, string message)
@@ -26,6 +34,7 @@ namespace EvidenceCapture.ViewModel.Base
 
             dc.Title = type.ToString();
             dc.Message = message;
+            dc.MType = type;
 
             CloseDialog();
 

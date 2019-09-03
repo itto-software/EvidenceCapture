@@ -3,6 +3,23 @@
                     xmlns:local="clr-namespace:EvidenceCapture.View.Style"
                      xmlns:custom="clr-namespace:EvidenceCapture.View.CustomControl">
 
+    <Style TargetType="{x:Type TreeViewItem}">
+        <Setter Property="Background"
+          Value="CadetBlue" />
+        
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="Gray"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="False">
+                <Setter Property="Background" Value="Red"/>
+            </Trigger>
+        </Style.Triggers>
+        
+    </Style>
+        
+    
+    
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Template">
             <Setter.Value>

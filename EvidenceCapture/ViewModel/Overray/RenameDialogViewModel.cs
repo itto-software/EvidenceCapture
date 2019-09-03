@@ -128,11 +128,8 @@ namespace EvidenceCapture.ViewModel.Overray
             }
             catch (Exception e)
             {
-                MessageDialog(MessageType.Error,
-                    string.Format(Resources.ErrUnexpected,
-                        e.Message));
-
-
+                logger.Error(e);
+                MessageDialog(e);
             }
         }
 

@@ -97,7 +97,7 @@ namespace EvidenceCapture.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool IsUnderReset {
             get {
                 return ((bool)(this["IsUnderReset"]));
@@ -164,6 +164,42 @@ namespace EvidenceCapture.Properties {
             }
             set {
                 this["KeyShortCutG3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsWindowCapture {
+            get {
+                return ((bool)(this["IsWindowCapture"]));
+            }
+            set {
+                this["IsWindowCapture"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultCamDevice {
+            get {
+                return ((string)(this["DefaultCamDevice"]));
+            }
+            set {
+                this["DefaultCamDevice"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alt + C")]
+        public string KeyShortCutCameraCap {
+            get {
+                return ((string)(this["KeyShortCutCameraCap"]));
+            }
+            set {
+                this["KeyShortCutCameraCap"] = value;
             }
         }
     }

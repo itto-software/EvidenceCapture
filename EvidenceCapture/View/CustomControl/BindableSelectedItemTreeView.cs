@@ -21,7 +21,21 @@ namespace EvidenceCapture.View.CustomControl
         public static readonly DependencyProperty BindableSelectedItemProperty
         #region...
         = DependencyProperty.Register(nameof(BindableSelectedItem),
-                    typeof(object), typeof(BindableSelectedItemTreeView), new UIPropertyMetadata(null));
+                    typeof(object), typeof(BindableSelectedItemTreeView), new PropertyMetadata(OnBindableSelectedItemChange));
+
+        private static void OnBindableSelectedItemChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if(d is TreeView)
+            {
+                var tv = d as TreeView;
+                var newItem = (TreeViewItem)tv.ItemContainerGenerator.ContainerFromItem(e.NewValue);
+                if(newItem != null)
+                {
+                    newItem.IsSelected = true;
+                }
+
+            }
+        }
         #endregion
 
         //
