@@ -17,7 +17,7 @@ using System.Windows.Input;
 namespace EvidenceCapture.ViewModel.MainContents
 {
     /// <summary>操作パネルのViewModel</summary>
-    class OperateControlViewModel : BaseVM, IMainContents
+    class OperateControlViewModel : BaseVM, IMainContents, IDisposable
     {
  
         #region Fields
@@ -421,6 +421,11 @@ namespace EvidenceCapture.ViewModel.MainContents
                 logger.Error(e);
 
             }
+        }
+
+        public void Dispose()
+        {
+            DetachContens();
         }
     }
 }

@@ -93,6 +93,12 @@ namespace EvidenceCapture.View
                 = this.WindowState == WindowState.Normal;
 
             Properties.DisplaySettings.Default.Save();
+
+            if(this.DataContext !=null && this.DataContext is MainViewModel)
+            {
+                var dc = this.DataContext as MainViewModel;
+                dc.Dispose();
+            }
         }
 
         protected override void OnStateChanged(EventArgs e)

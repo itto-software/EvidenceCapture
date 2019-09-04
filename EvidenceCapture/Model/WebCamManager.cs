@@ -15,6 +15,7 @@ namespace EvidenceCapture.Model
         private VideoCaptureDevice device;
         private Bitmap latestimg;
         private Action<Bitmap> _callBack;
+        private readonly object semaphore = new object();
 
         public bool IsRunning
         {
@@ -56,7 +57,10 @@ namespace EvidenceCapture.Model
 
         public Bitmap GetCapture()
         {
-            return latestimg;
+            lock (semaphore)
+            {
+                return latestimg;
+            }
         }
 
 
@@ -73,8 +77,13 @@ namespace EvidenceCapture.Model
 
         private void NewFrameEvent(object sender, NewFrameEventArgs eventArgs)
         {
-            latestimg = (Bitmap)eventArgs.Frame.Clone();
-            _callBack?.Invoke(latestimg);
+            lock (semaphore)
+            {
+                if (latestimg != null)
+                    latestimg.Dispose();
+                latestimg = (Bitmap)eventArgs.Frame.Clone();
+                _callBack?.Invoke(latestimg);
+            }
         }
 
         public void Stop()

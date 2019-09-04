@@ -39,7 +39,6 @@ namespace EvidenceCapture.Model
 
         public static System.Windows.Media.ImageSource GetImageSource(Bitmap snap)
         {
-            System.Windows.Media.ImageSource source = null ;
             using (Stream st = new MemoryStream())
             {
                 snap.Save(st, System.Drawing.Imaging.ImageFormat.Bmp);

@@ -33,7 +33,7 @@ namespace EvidenceCapture
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            App._mutex = new Mutex(false, "{A355FC89-0C91-45E0-BD44-696B874B0B12}");
+            App._mutex = new Mutex(false, "EvidenceCapture");
             if (!App._mutex.WaitOne(0, false))
             {
                 App._mutex.Close();

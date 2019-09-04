@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace EvidenceCapture.ViewModel.MainContents
 {
-    class WebCamSettingViewModel : BaseVM, IMainContents
+    class WebCamSettingViewModel : BaseVM, IMainContents, IDisposable
     {
         #region Fields
 
@@ -91,13 +91,18 @@ namespace EvidenceCapture.ViewModel.MainContents
             else if (CameraDevices.Count > 0)
                 TargetDevice = CameraDevices[0];
             else
-                MessageDialog(MessageType.Error,"");
+                MessageDialog(MessageType.Error, "");
         }
 
         public void DetachContens()
         {
             if (webcam != null)
                 webcam.Dispose();
+        }
+
+        public void Dispose()
+        {
+            DetachContens();
         }
     }
 }

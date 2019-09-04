@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace EvidenceCapture.ViewModel
 {
-    public class MainViewModel : BaseVM
+    public class MainViewModel : BaseVM, IDisposable
     {
         public enum ContentsType
         {
@@ -222,5 +222,20 @@ namespace EvidenceCapture.ViewModel
             }
         }
 
+        public void Dispose()
+        {
+            if (mainContentsCache != null)
+            {
+                foreach(var item in  mainContentsCache)
+                {
+                    if( item.Value.DataContext is IDisposable)
+                    {
+                        var mc = item.Value.DataContext as IDisposable;
+                        mc.Dispose();
+                    }
+                }
+
+            }
+        }
     }
 }

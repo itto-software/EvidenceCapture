@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 namespace EvidenceCapture.ViewModel.MainContents
 {
-    public class ApplicationSettingViewModel : BaseVM, IMainContents
+    public class ApplicationSettingViewModel : BaseVM, IMainContents, IDisposable
     {
         public enum FocusType
         {
@@ -422,6 +422,11 @@ namespace EvidenceCapture.ViewModel.MainContents
         public void DetachContens()
         {
             isKeyBind = false;
+        }
+
+        public void Dispose()
+        {
+            DetachContens();
         }
     }
 }
