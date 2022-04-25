@@ -275,4 +275,7 @@
     <value>Webカメラが認識できませんでした。
 カメラのキャプチャは利用できません。</value>
   </data>
+  <data name="GroupPattern" xml:space="preserve">
+    <value>グループ表現</value>
+  </data>
 </root>

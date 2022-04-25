@@ -79,6 +79,28 @@ namespace EvidenceCapture.ViewModel.MainContents
             }
         }
 
+        private string _groupPattern = string.Empty;
+
+        public string GroupPattern
+        {
+            get => _groupPattern;
+            set
+            {
+                var key = nameof(GroupPattern);
+                if (!_validateState.ContainsKey(key))
+                    _validateState.Add(key, false);
+
+                _groupPattern = value;
+
+                _validateState[key] = !string.IsNullOrEmpty(_groupPattern);
+
+                if (_validateState[key])
+                    RaisePropertyChanged(nameof(GroupPattern));
+                else
+                    throw new ArgumentException();
+            }
+        }
+
         public string SnapShotFormatWidth
         {
             get
@@ -322,7 +344,7 @@ namespace EvidenceCapture.ViewModel.MainContents
             ai.KeyShortCutApplicationCap = KeyShortCutApplicationCap;
             ai.KeyShortCutScreenCap = KeyShortCutScreenCap;
             ai.KeyShortCutCameraCap = KeyShortCutCameraCap;
-
+            ai.GroupPattern = GroupPattern;
             ai.KeyShortCutG1 = KeyShortCutG1;
             ai.KeyShortCutG2 = KeyShortCutG2;
             ai.KeyShortCutG3 = KeyShortCutG3;
@@ -404,6 +426,7 @@ namespace EvidenceCapture.ViewModel.MainContents
             KeyShortCutG1 = ai.KeyShortCutG1;
             KeyShortCutG2 = ai.KeyShortCutG2;
             KeyShortCutG3 = ai.KeyShortCutG3;
+            GroupPattern = ai.GroupPattern;
             IsWindowCapture = ai.IsWindowCapture;
 
             var imageFormat = CommonUtility.GetEnum<ImageFormatType>(ApplicationSettings.Instance.ImageFormat);

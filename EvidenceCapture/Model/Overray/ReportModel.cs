@@ -199,7 +199,7 @@ namespace EvidenceCapture.Model.Overray
 
                             shape = currentSheet.Shapes.AddPicture(sourceImagePath,
                                 Microsoft.Office.Core.MsoTriState.msoTrue,
-                                Microsoft.Office.Core.MsoTriState.msoFalse,
+                                Microsoft.Office.Core.MsoTriState.msoTrue,
                                 Left, NextTop, Width, Height);
 
                             shape.ScaleHeight(1.0, true);

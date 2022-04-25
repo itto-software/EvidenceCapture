@@ -1,5 +1,6 @@
 ﻿using EvidenceCapture.Model;
 using EvidenceCapture.Model.ProcessResult;
+using EvidenceCapture.View.CustomControl;
 using EvidenceCapture.View.Overray;
 using EvidenceCapture.ViewModel.Base;
 using EvidenceCapture.ViewModel.Overray;
@@ -273,12 +274,12 @@ namespace EvidenceCapture.ViewModel.MainContents
 
         private void SetOutputPathImpl()
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            dialog.SelectedPath = model.OutputRoot;
+            var dialog = new FolderSelectDialog();
+            dialog.FilePath = model.OutputRoot;
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                model.OutputRoot = dialog.SelectedPath;
+                model.OutputRoot = dialog.FilePath;
                 SelectedOutputPath = model.OutputRoot;
 
             }

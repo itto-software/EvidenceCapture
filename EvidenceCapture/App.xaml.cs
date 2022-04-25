@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace EvidenceCapture
 {
@@ -43,9 +44,20 @@ namespace EvidenceCapture
                 return;
             }
 
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+
+
             var mainWindow = new MainWindow();
 
             mainWindow.Show();
+        }
+
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            var exception = e.Exception as Exception;
+            MessageBox.Show(exception.Message, "fatal error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            this.Shutdown(-1);
         }
 
         protected override void OnExit(ExitEventArgs e)

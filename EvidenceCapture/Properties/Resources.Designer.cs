@@ -205,6 +205,15 @@ namespace EvidenceCapture.Properties {
         }
         
         /// <summary>
+        ///   グループ表現 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string GroupPattern {
+            get {
+                return ResourceManager.GetString("GroupPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   変更後のグループを指定してください に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string GroupRenameCaption {

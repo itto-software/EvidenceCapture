@@ -36,9 +36,15 @@
                             </custom:LabelAndValue.ValueContent>
                         </custom:LabelAndValue>
 
-                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.SnapShotFormatWidth}">
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.GroupPattern}">
                             <custom:LabelAndValue.ValueContent>
-                                <TextBox Text="{Binding SnapShotFormatWidth,ValidatesOnExceptions=True}" TextAlignment="Right" Width="60"/>
+                                <TextBox Text="{Binding GroupPattern,ValidatesOnExceptions=True}" Width="100"/>
+                            </custom:LabelAndValue.ValueContent>
+                        </custom:LabelAndValue>
+
+                        <custom:LabelAndValue LabelText="{x:Static rs:Resources.SnapShotFormatHeight}">
+                            <custom:LabelAndValue.ValueContent>
+                                <TextBox Text="{Binding SnapShotFormatHeight,ValidatesOnExceptions=True}" TextAlignment="Right" Width="60"/>
                             </custom:LabelAndValue.ValueContent>
                         </custom:LabelAndValue>
 
@@ -49,6 +55,8 @@
                             </custom:LabelAndValue.ValueContent>
                         </custom:LabelAndValue>
 
+
+                        
                         <custom:LabelAndValue LabelText="{x:Static rs:Resources.IsWindowCaptureLabel}">
                             <custom:LabelAndValue.ValueContent>
                                 <CheckBox 

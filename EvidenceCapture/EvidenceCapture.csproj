@@ -165,6 +165,8 @@
     <Compile Include="View\Converter\TreeItemConverter.cs" />
     <Compile Include="View\CustomControl\BindableCommandCombobox.cs" />
     <Compile Include="View\CustomControl\BindableSelectedItemTreeView.cs" />
+    <Compile Include="View\CustomControl\FileDraggableTextBox.cs" />
+    <Compile Include="View\CustomControl\FolderSelectDialog.cs" />
     <Compile Include="View\CustomControl\LabelAndValue.xaml.cs">
       <DependentUpon>LabelAndValue.xaml</DependentUpon>
     </Compile>
@@ -195,6 +197,10 @@
     <Compile Include="View\WaitingCircle.xaml.cs">
       <DependentUpon>WaitingCircle.xaml</DependentUpon>
     </Compile>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\CustomControl\LabelAndValue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -101,12 +101,14 @@
                 TextBlock.FontFamily="Webdings"
                 TextBlock.FontSize="20"
                 Content="&#x00D2;"/>
-            <TextBox
+            <custom:FileDraggableTextBox
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     Focusable="False"
                     IsReadOnly="True"
-                    Text="{Binding SelectedOutputPath}"/>
+                    Text="{Binding SelectedOutputPath}"
+                    AllowDrop="True"
+                    IsFile="False"/>
             <Button 
                 Grid.Column="2"
                 Width="30"
